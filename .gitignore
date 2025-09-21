@@ -1,0 +1,23 @@
+# Backup directories
+.dotfiles_backup_*
+
+# OS specific files
+.DS_Store
+Thumbs.db
+
+# Temporary files
+*.tmp
+*.swp
+*.swo
+*~
+
+# Personal/sensitive files
+*.private
+*.secret
+
+# Cache directories
+cache/
+.cache/
+
+# Logs
+*.log
