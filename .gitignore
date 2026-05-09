@@ -1,6 +1,6 @@
 # Backup directories
 .dotfiles_backup_*
-
+plugged/
 # OS specific files
 .DS_Store
 Thumbs.db

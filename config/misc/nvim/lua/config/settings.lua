@@ -1,5 +1,7 @@
 -- Basic Neovim Settings
 -- Visual
+vim.cmd.colorscheme("kanagawa")
+--vim.cmd("colorscheme vague")
 vim.opt.number = true                -- Show line numbers
 vim.opt.relativenumber = true        -- Show relative line numbers
 vim.opt.termguicolors = true         -- Enable 24-bit RGB colors
@@ -17,7 +19,9 @@ vim.opt.smartindent = true           -- Smart indent
 -- Search
 vim.opt.ignorecase = true            -- Ignore case in search
 vim.opt.smartcase = true             -- Smart case search
-vim.opt.hlsearch = false             -- Don't highlight search results
+vim.opt.hlsearch = true              -- Highlight search results
+vim.opt.incsearch = true             -- Incremental searh 
+vim.opt.showmatch = true
 
 -- Performance
 vim.opt.updatetime = 250             -- Faster update time
