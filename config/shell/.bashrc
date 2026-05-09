@@ -30,6 +30,9 @@ alias gd='git diff'
 alias ls='ls --color=auto'
 alias grep='grep --color=auto'
 alias ll='ls -alF'
+alias lsd='ls -d */'
+
+alias nv='nvim'
 
 # get current branch in git repo
 function parse_git_branch() {

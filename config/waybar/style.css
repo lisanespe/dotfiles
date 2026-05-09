@@ -1,0 +1,117 @@
+* {
+    font-family: "UbuntuMono Nerd Font Mono", monospace;
+    font-size: 20px;
+    min-height: 0;
+}
+
+window#waybar {
+    background-color: rgba(20, 20, 20, 0.9);
+    color: #ffffff;
+    border-bottom: 2px solid rgba(100, 100, 100, 0.3);
+}
+
+/* Workspaces */
+#workspaces button {
+    padding: 0 8px;
+    color: #888888;
+    background: transparent;
+    border-bottom: 2px solid transparent;
+    transition: color 200ms, border-color 200ms;
+}
+#workspaces button:hover {
+    color: #c0caf5;
+    background: transparent;     /* override Waybar's default hover bg */
+    box-shadow: none;
+    text-shadow: none;
+}
+#workspaces button.active {
+    color: #ffffff;
+    border-bottom: 2px solid #7aa2f7;
+}
+#workspaces button.urgent {
+    color: #f7768e;
+    border-bottom: 2px solid #f7768e;
+}
+
+/* Window title (left side) */
+#window {
+    padding: 0 12px;
+    color: #c0caf5;
+    font-style: italic;
+}
+window#waybar.empty #window {
+    background: transparent;
+}
+
+/* Shared padding for all right-side modules */
+#clock,
+#cpu,
+#custom-cpu-temp,
+#custom-gpu-usage,
+#custom-gpu-temp,
+#memory,
+#network,
+#bluetooth,
+#pulseaudio,
+#tray,
+#keyboard-state {
+    padding: 2px 12px;
+    margin: 4px 2px;
+    color: #ffffff;
+    background-color: rgba(40, 42, 54, 0.6);
+    border-radius: 8px;
+}
+
+/* Per-module accent colors */
+#clock              { color: #c0caf5; }
+#cpu                { color: #9ece6a; }
+#custom-cpu-temp    { color: #9ece6a; }
+#custom-gpu-usage   { color: #f7768e; }
+#custom-gpu-temp    { color: #f7768e; }
+#memory             { color: #e0af68; }
+#network            { color: #7aa2f7; }
+#bluetooth          { color: #2ac3de; }
+#pulseaudio         { color: #bb9af7; }
+#tray               { color: #c0caf5; }
+#keyboard-state     { color: #e0af68; }
+
+/* Disconnected / muted states */
+#network.disconnected {
+    color: #565f89;
+}
+#pulseaudio.muted {
+    color: #565f89;
+}
+#bluetooth.off,
+#bluetooth.no-controller {
+    color: #565f89;
+}
+
+/* Critical temperature flash */
+#custom-cpu-temp.critical,
+#custom-gpu-temp.critical {
+    color: #1a1b26;
+    background-color: #f7768e;
+    border-radius: 4px;
+    animation: blink-critical 1s linear infinite alternate;
+}
+@keyframes blink-critical {
+    from { background-color: #f7768e; }
+    to   { background-color: #db4b4b; }
+}
+
+/* Keyboard state — locked = highlighted */
+#keyboard-state .locked {
+    color: #f7768e;
+}
+
+/* Tooltip */
+tooltip {
+    background-color: rgba(26, 27, 38, 0.95);
+    border: 1px solid #414868;
+    border-radius: 4px;
+}
+tooltip label {
+    color: #c0caf5;
+    padding: 4px;
+}
