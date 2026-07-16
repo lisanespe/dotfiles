@@ -16,6 +16,9 @@ export HISTCONTROL=ignoreboth # Ignore duplicates and lines starting with space
 export HISTIGNORE="ls:ll:cd:pwd:bg:fg:history:clear" # Ignore common commandsi
 export PATH=$PATH:.local/bin/
 
+#Config aliases
+export QT_QPA_PLATFORM=wayland
+
 #Custom Aliases
 alias auris='bluetoothctl connect 80:C3:BA:7B:7C:47'
 alias hypr='start-hyprland'
@@ -94,3 +97,6 @@ function parse_git_dirty {
 }
 
 export PS1="[\[\e[32m\]\u\[\e[m\]@\h\w]\`parse_git_branch\`\\$ "
+
+
+export PATH="/home/lisanespe/.local/bin:$PATH"

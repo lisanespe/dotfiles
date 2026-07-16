@@ -1,7 +1,7 @@
 {
     "layer": "top",
     "position": "top",
-    "height": 32,
+    "height": 33,
     "spacing": 4,
     "modules-left": ["hyprland/workspaces", "hyprland/window"],
     "modules-center": ["clock"],
@@ -20,7 +20,7 @@
 
     "hyprland/workspaces": {
         "disable-scroll": true,
-        "all-outputs": true,
+        "all-outputs": true
         
     },
 
@@ -41,8 +41,8 @@
         "device-path": "/dev/input/by-path/pci-0000:0b:00.3-usb-0:3:1.0-event-kbd",
         "format": "{name} {icon}",
         "format-icons": {
-            "locked": "",
-            "unlocked": ""
+            "locked": "󰌾 ",
+            "unlocked": " "
         }
     },
 
@@ -53,8 +53,11 @@
 
     "cpu": {
         "interval": 2,
-        "format": " 󰻠 {usage}%",
-        "tooltip": true
+        "format": "{icon} {usage}%",
+        "tooltip": true,
+        "format-icons": [
+          "<span size='x-large'>󰻠</span>"
+     ]
     },
 
     "custom/cpu-temp": {
@@ -104,9 +107,9 @@
         "format": "{icon}  {volume}%",
         "format-muted": "󰸈 muted",
         "format-icons": {
-            "headphone": "",
+            "headphone": "",
             "headset": "󰋎",
-            "default": ["", "", ""]
+            "default": ["", "", ""]
         },
         "on-click": "pavucontrol"
     }
