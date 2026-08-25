@@ -21,3 +21,7 @@ cache/
 
 # Logs
 *.log
+
+# SSH — ignore everything, allow only the client config
+config/ssh/*
+!config/ssh/config

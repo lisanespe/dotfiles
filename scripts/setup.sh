@@ -86,17 +86,11 @@ main() {
         create_symlink "$DOTFILES_DIR/config/git/.gitconfig" "$HOME/.gitconfig"
     fi
 
-    # SSH agent: systemd user unit + environment for user services
-    create_symlink "$DOTFILES_DIR/config/systemd/user/ssh-agent.service" \
-        "$HOME/.config/systemd/user/ssh-agent.service"
-    create_symlink "$DOTFILES_DIR/config/environment.d/ssh-agent.conf" \
-        "$HOME/.config/environment.d/10-ssh-agent.conf"
-
-    if command -v systemctl >/dev/null 2>&1; then
-        systemctl --user daemon-reload || true
-        systemctl --user enable ssh-agent.service || true
-        log_success "ssh-agent.service enabled (starts at next login)"
-    fi
+       if   command -v systemctl >/dev/null 2>&1; then
+            systemctl --user daemon-reload || true
+            systemctl --user enable ssh-agent.socket || true
+            log_success "ssh-agent.socket enabled"
+       fi
 
     log_success "Dotfiles setup completed!"
     
@@ -105,6 +99,9 @@ main() {
     fi
     
     log_info "You may need to restart your shell or run 'source ~/.bashrc' to apply changes"
+    # SSH client config (keys are NOT in this repo)
+    mkdir -p "$HOME/.ssh" && chmod 700 "$HOME/.ssh"
+    create_symlink "$DOTFILES_DIR/config/ssh/config" "$HOME/.ssh/config"
 }
 
 # Check if running from the right directory

@@ -1,0 +1,11 @@
+# Machine-specific hosts go in ~/.ssh/config.local (not tracked).
+# Include must come first: in SSH config, the first matching directive wins.
+Include ~/.ssh/config.local
+
+Host *
+    AddKeysToAgent yes
+    IdentitiesOnly yes
+
+Host github.com
+    User git
+    IdentityFile ~/.ssh/github
