@@ -1,0 +1,33 @@
+[Unit]
+Description=Sonarr - TV series management
+After=network-online.target
+Wants=network-online.target
+RequiresMountsFor=/mnt/data
+
+[Container]
+Image=lscr.io/linuxserver/sonarr:latest
+ContainerName=sonarr
+AutoUpdate=registry
+
+Network=media.network
+PublishPort=8989:8989
+
+UserNS=keep-id:uid=1000,gid=1000
+
+Environment=PUID=1000
+Environment=PGID=1000
+Environment=TZ=America/Argentina/Buenos_Aires
+
+Volume=%h/media-stack/config/sonarr:/config
+Volume=/mnt/data:/mnt/data
+
+HealthCmd=curl -fsS http://127.0.0.1:8989/ping || exit 1
+HealthInterval=60s
+HealthRetries=3
+HealthStartPeriod=90s
+
+[Service]
+Restart=always
+
+[Install]
+WantedBy=default.target

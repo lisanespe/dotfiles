@@ -1,0 +1,22 @@
+[Unit]
+Description=FlareSolverr - Cloudflare challenge solver for indexers
+After=network-online.target
+Wants=network-online.target
+
+[Container]
+Image=ghcr.io/flaresolverr/flaresolverr:latest
+ContainerName=flaresolverr
+AutoUpdate=registry
+
+Network=media.network
+
+Environment=LOG_LEVEL=info
+Environment=TZ=America/Argentina/Buenos_Aires
+
+ShmSize=256m
+
+[Service]
+Restart=always
+
+[Install]
+WantedBy=default.target

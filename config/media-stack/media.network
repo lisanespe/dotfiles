@@ -1,0 +1,9 @@
+[Unit]
+Description=Media stack internal network
+
+[Network]
+NetworkName=media
+Driver=bridge
+
+[Install]
+WantedBy=default.target

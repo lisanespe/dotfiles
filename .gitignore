@@ -33,3 +33,9 @@ config/jellyfin/server-config/data/
 config/jellyfin/server-config/metadata/
 config/jellyfin/server-config/plugins/
 .env
+
+# media-stack runtime state — never commit
+media-stack/config/
+
+# media-stack runtime state — never commit (API keys live here)
+media-stack/config/

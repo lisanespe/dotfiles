@@ -1,0 +1,33 @@
+[Unit]
+Description=Radarr - movie management
+After=network-online.target
+Wants=network-online.target
+RequiresMountsFor=/mnt/data
+
+[Container]
+Image=lscr.io/linuxserver/radarr:latest
+ContainerName=radarr
+AutoUpdate=registry
+
+Network=media.network
+PublishPort=7878:7878
+
+UserNS=keep-id:uid=1000,gid=1000
+
+Environment=PUID=1000
+Environment=PGID=1000
+Environment=TZ=America/Argentina/Buenos_Aires
+
+Volume=%h/media-stack/config/radarr:/config
+Volume=/mnt/data:/mnt/data
+
+HealthCmd=curl -fsS http://127.0.0.1:7878/ping || exit 1
+HealthInterval=60s
+HealthRetries=3
+HealthStartPeriod=90s
+
+[Service]
+Restart=always
+
+[Install]
+WantedBy=default.target
