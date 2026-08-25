@@ -25,3 +25,11 @@ cache/
 # SSH — ignore everything, allow only the client config
 config/ssh/*
 !config/ssh/config
+
+*.db
+*.db-shm
+*.db-wal
+config/jellyfin/server-config/data/
+config/jellyfin/server-config/metadata/
+config/jellyfin/server-config/plugins/
+.env

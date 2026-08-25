@@ -1,0 +1,24 @@
+[Unit]
+Description=Jellyfin Media Server
+After=local-fs.target network-online.target
+
+[Container]
+Image=docker.io/jellyfin/jellyfin
+ContainerName=myjellyfin
+Network=host
+
+Environment=PUID=1000
+Environment=PGID=1000
+Environment=TZ=America/Argentina/Buenos_Aires
+
+Volume=%h/jellyfin/config:/config
+Volume=%h/jellyfin/cache:/cache
+Volume=/mnt/data:/media:ro
+
+AddDevice=/dev/dri/renderD128
+
+[Service]
+Restart=always
+
+[Install]
+WantedBy=default.target
