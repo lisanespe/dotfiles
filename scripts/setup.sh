@@ -64,28 +64,40 @@ create_symlink() {
 }
 
 main() {
-    log_info "Setting up dotfiles from $DOTFILES_DIR"
-    
+     log_info "Setting up dotfiles from $DOTFILES_DIR"
+
     # Shell configuration
-    create_symlink "$DOTFILES_DIR/config/shell/bashrc" "$HOME/.bashrc"
-    
+    create_symlink "$DOTFILES_DIR/config/shell/.bashrc" "$HOME/.bashrc"
+
     # Hyprland configuration
-    create_symlink "$DOTFILES_DIR/config/hypr/hypr" "$HOME/.config/hypr"
-    
+    create_symlink "$DOTFILES_DIR/config/hypr" "$HOME/.config/hypr"
+
     # Waybar configuration
-    create_symlink "$DOTFILES_DIR/config/waybar/waybar" "$HOME/.config/waybar"
-    
+    create_symlink "$DOTFILES_DIR/config/waybar" "$HOME/.config/waybar"
+
     # Kitty configuration
     create_symlink "$DOTFILES_DIR/config/misc/kitty" "$HOME/.config/kitty"
-    
+
     # Neovim configuration
     create_symlink "$DOTFILES_DIR/config/misc/nvim" "$HOME/.config/nvim"
-    
+
     # Git configuration (if exists)
     if [[ -f "$DOTFILES_DIR/config/git/.gitconfig" ]]; then
         create_symlink "$DOTFILES_DIR/config/git/.gitconfig" "$HOME/.gitconfig"
     fi
-    
+
+    # SSH agent: systemd user unit + environment for user services
+    create_symlink "$DOTFILES_DIR/config/systemd/user/ssh-agent.service" \
+        "$HOME/.config/systemd/user/ssh-agent.service"
+    create_symlink "$DOTFILES_DIR/config/environment.d/ssh-agent.conf" \
+        "$HOME/.config/environment.d/10-ssh-agent.conf"
+
+    if command -v systemctl >/dev/null 2>&1; then
+        systemctl --user daemon-reload || true
+        systemctl --user enable ssh-agent.service || true
+        log_success "ssh-agent.service enabled (starts at next login)"
+    fi
+
     log_success "Dotfiles setup completed!"
     
     if [[ -d "$BACKUP_DIR" ]]; then

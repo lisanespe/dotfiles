@@ -37,6 +37,9 @@ hl.on("hyprland.start", function()
     hl.exec_cmd("sh -c 'sleep 1; awww restore'")
     hl.exec_cmd("systemctl --user start hyprpolkitagent")
     hl.exec_cmd("flatpak run com.spotify.Client")
+    hl.env("SSH_AUTH_SOCK", "/run/user/1000/ssh-agent.socket")
+    hl.env("SSH_ASKPASS", "/usr/bin/ksshaskpass")
+    hl.env("SSH_ASKPASS_REQUIRE", "prefer")
 end)
 -------------------------------
 ---- ENVIRONMENT VARIABLES ----
