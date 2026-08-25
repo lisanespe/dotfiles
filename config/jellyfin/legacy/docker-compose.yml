@@ -1,0 +1,27 @@
+services:
+  jellyfin:
+    image: docker.io/jellyfin/jellyfin
+    container_name: myjellyfin
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/Argentina/Buenos_Aires
+      # Network resilience settings
+      - JELLYFIN_HTTP_TIMEOUT=60000
+      - JELLYFIN_SOCKET_TIMEOUT=60000
+      - JELLYFIN_KEEPALIVE_TIMEOUT=300
+    ports:
+      - "8096:8096"
+      - "8920:8920"
+      - "7359:7359/udp"
+      - "1900:1900/udp"
+    volumes:
+      - ./config:/config
+      - ./cache:/cache
+      - type: bind
+        source: /mnt/data
+        target: /media
+        read_only: true
+    devices:
+      - /dev/dri:/dev/dri
+    restart: unless-stopped

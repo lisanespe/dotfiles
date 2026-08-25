@@ -3,7 +3,7 @@ Description=Jellyfin Media Server
 After=local-fs.target network-online.target
 
 [Container]
-Image=docker.io/jellyfin/jellyfin
+Image=docker.io/jellyfin/jellyfin:10.11.8
 ContainerName=myjellyfin
 Network=host
 

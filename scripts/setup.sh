@@ -81,6 +81,9 @@ main() {
     # Neovim configuration
     create_symlink "$DOTFILES_DIR/config/misc/nvim" "$HOME/.config/nvim"
 
+    create_symlink "$DOTFILES_DIR/config/jellyfin/jellyfin.container" \
+    "$HOME/.config/containers/systemd/jellyfin.container"
+
     # Git configuration (if exists)
     if [[ -f "$DOTFILES_DIR/config/git/.gitconfig" ]]; then
         create_symlink "$DOTFILES_DIR/config/git/.gitconfig" "$HOME/.gitconfig"
