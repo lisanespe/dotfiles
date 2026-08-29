@@ -1,0 +1,26 @@
+[Unit]
+Description=Jellyseerr - request management
+After=network-online.target
+Wants=network-online.target
+
+[Container]
+Image=docker.io/fallenbagel/jellyseerr:latest
+ContainerName=jellyseerr
+AutoUpdate=registry
+
+Network=media.network
+PublishPort=5055:5055
+
+UserNS=keep-id:uid=1000,gid=1000
+
+Environment=TZ=America/Argentina/Buenos_Aires
+Environment=LOG_LEVEL=info
+
+Volume=%h/media-stack/config/jellyseerr:/app/config
+
+[Service]
+Restart=always
+TimeoutStartSec=300
+
+[Install]
+WantedBy=default.target
