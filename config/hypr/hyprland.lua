@@ -257,6 +257,14 @@ for i = 1, 10 do
     hl.bind(mainMod .. " + SHIFT + " .. key,   hl.dsp.window.move({ workspace = i }))
 end
 
+-- Side keyboard keys 4-6. keyd remaps them to F13-F15 (config/keyd/default.conf).
+-- XKB's default `inet` symbols turn KEY_F13-F15 into these keysyms, so "F13"
+-- would never match. (`code:191` binds are silently dropped by the Lua API.)
+local sideKeys = { "XF86Tools", "XF86Launch5", "XF86Launch6" }
+for i, key in ipairs(sideKeys) do
+    hl.bind(key, hl.dsp.focus({ workspace = i }))
+end
+
 -- Special workspace (scratchpad)
 hl.bind(mainMod .. " + S",       hl.dsp.workspace.toggle_special("magic"))
 hl.bind(mainMod .. " + ALT + S", hl.dsp.window.move({ workspace = "special:magic" }))

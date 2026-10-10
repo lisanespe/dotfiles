@@ -63,6 +63,21 @@ create_symlink() {
     log_success "Created symlink: $target -> $source"
 }
 
+# Install the side-keyboard keyd config into /etc/keyd (root-owned, needs sudo).
+# keyd runs as a root system service and starts at boot, before login.
+install_keyd_config() {
+    local source="$DOTFILES_DIR/config/keyd/default.conf"
+    local target="/etc/keyd/default.conf"
+
+    if ! command -v keyd >/dev/null 2>&1; then
+        log_warning "keyd not installed, skipping keyd config"
+        return 0
+    fi
+
+    # TODO: put $source at $target, then run `sudo systemctl restart keyd`.
+    # (Not `keyd reload`: keyd 2.6.0 segfaults on live reload.)
+}
+
 main() {
      log_info "Setting up dotfiles from $DOTFILES_DIR"
 
@@ -80,6 +95,9 @@ main() {
 
     # Neovim configuration
     create_symlink "$DOTFILES_DIR/config/misc/nvim" "$HOME/.config/nvim"
+
+    # Side keyboard remap (system-wide, needs sudo)
+    install_keyd_config
 
     create_symlink "$DOTFILES_DIR/config/jellyfin/jellyfin.container" \
     "$HOME/.config/containers/systemd/jellyfin.container"
