@@ -125,6 +125,9 @@ main() {
     # Kitty configuration
     create_symlink "$DOTFILES_DIR/config/misc/kitty" "$HOME/.config/kitty"
 
+    # Wget configuration (WGETRC points here, see .bashrc)
+    create_symlink "$DOTFILES_DIR/config/misc/wget" "$HOME/.config/wget"
+
     # Neovim configuration
     create_symlink "$DOTFILES_DIR/config/misc/nvim" "$HOME/.config/nvim"
 

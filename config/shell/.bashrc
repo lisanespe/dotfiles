@@ -12,12 +12,15 @@
 # History settings
 export HISTSIZE=1000          # Number of commands in memory
 export HISTFILESIZE=2000      # Number of commands in history file
+export HISTFILE="$HOME/.local/state/bash/history" # keeps .bash_history out of $HOME
 export HISTCONTROL=ignoreboth # Ignore duplicates and lines starting with space
 export HISTIGNORE="ls:ll:cd:pwd:bg:fg:history:clear" # Ignore common commandsi
 export PATH=$PATH:.local/bin/
 
 #Config aliases
 export QT_QPA_PLATFORM=wayland
+export WGETRC="$HOME/.config/wget/wgetrc" # keeps .wget-hsts out of $HOME
+export npm_config_cache="$HOME/.cache/npm" # keeps .npm out of $HOME
 
 #Custom Aliases
 alias auris='bluetoothctl connect 80:C3:BA:7B:7C:47'

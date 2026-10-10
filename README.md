@@ -59,6 +59,7 @@ ln -sf ~/dotfiles/config/waybar/waybar ~/.config/waybar
 
 # Other configs
 ln -sf ~/dotfiles/config/misc/kitty ~/.config/kitty
+ln -sf ~/dotfiles/config/misc/wget ~/.config/wget
 ln -sf ~/dotfiles/config/misc/nvim ~/.config/nvim
 ```
 
