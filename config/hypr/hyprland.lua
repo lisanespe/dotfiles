@@ -46,11 +46,23 @@ end)
 hl.env("XCURSOR_SIZE", "24")
 hl.env("HYPRCURSOR_SIZE", "24")
 
--- SSH agent (systemd user socket). Set at top level so autostarted
--- programs inherit them too, not only apps launched later.
-hl.env("SSH_AUTH_SOCK", "/run/user/1000/ssh-agent.socket")
-hl.env("SSH_ASKPASS", "/usr/bin/ksshaskpass")
-hl.env("SSH_ASKPASS_REQUIRE", "prefer")
+-- SSH agent variables, read from the same environment.d file systemd uses
+-- (config/environment.d/ssh-agent.conf), so they are defined only once.
+-- Top level, so autostarted programs inherit them too.
+-- environment.d syntax: KEY=VALUE lines, # comments, ${VAR} expansion.
+local function load_environment_d(path)
+    local f = io.open(path)
+    if not f then return end
+    for line in f:lines() do
+        local key, value = line:match("^%s*([%w_]+)=(.*)$")
+        if key then
+            value = value:gsub("%${([%w_]+)}", function(name) return os.getenv(name) or "" end)
+            hl.env(key, value)
+        end
+    end
+    f:close()
+end
+load_environment_d(os.getenv("HOME") .. "/.config/environment.d/10-ssh-agent.conf")
 
 -- Optional, but recommended on your setup:
 -- hl.env("ELECTRON_OZONE_PLATFORM_HINT", "auto")  -- native Wayland for Electron apps
