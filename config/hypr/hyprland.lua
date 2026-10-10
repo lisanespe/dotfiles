@@ -33,6 +33,7 @@ local menu        = "wofi --show drun"
 
 hl.on("hyprland.start", function()
     hl.exec_cmd("waybar")
+    hl.exec_cmd("hypridle")   -- idle lock / screen off (config/hypr/hypridle.conf)
     hl.exec_cmd("/home/lisanespe/.local/bin/wallpaper-start")
     hl.exec_cmd("systemctl --user start hyprpolkitagent")
     hl.exec_cmd("spotify-launcher")

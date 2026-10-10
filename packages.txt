@@ -4,6 +4,7 @@
 # Hyprland desktop
 hyprland
 hyprlock                     # SUPER+L lock screen (config/hypr/hyprlock.conf)
+hypridle                     # idle lock + screen off (config/hypr/hypridle.conf)
 hyprpolkitagent
 xdg-desktop-portal-hyprland
 waybar

@@ -56,6 +56,7 @@ window#waybar.empty #window {
 #tray,
 #keyboard-state,
 #custom-updates,
+#idle_inhibitor,
 #custom-power {
     padding: 2px 12px;
     margin: 4px 2px;
@@ -89,6 +90,7 @@ window#waybar.empty #window {
 #keyboard-state     { color: #e0af68; }
 #custom-updates     { color: #7dcfff; }
 #custom-power       { color: #f7768e; }
+#idle_inhibitor     { color: #565f89; }
 
 /* Disconnected / muted states */
 #network.disconnected {
@@ -119,6 +121,12 @@ window#waybar.empty #window {
 #custom-updates.warning {
     color: #1a1b26;
     background-color: #ff9e64;
+}
+
+/* Idle inhibitor: yellow pill while keeping the screen awake */
+#idle_inhibitor.activated {
+    color: #1a1b26;
+    background-color: #e0af68;
 }
 
 /* Power button: red pill on hover */
