@@ -11,27 +11,32 @@ window#waybar {
     border-bottom: 2px solid rgba(100, 100, 100, 0.3);
 }
 
-/* Workspaces */
+/* Workspaces: active one is a filled pill; color/background fade in */
+#workspaces {
+    margin: 4px 2px;
+}
 #workspaces button {
-    padding: 0 8px;
+    padding: 0 10px;
+    margin: 0 2px;
     color: #888888;
     background: transparent;
-    border-bottom: 2px solid transparent;
-    transition: color 200ms, border-color 200ms;
+    border: none;
+    border-radius: 8px;
+    transition: color 200ms ease, background-color 250ms ease;
 }
 #workspaces button:hover {
     color: #c0caf5;
-    background: transparent;     /* override Waybar's default hover bg */
+    background: rgba(122, 162, 247, 0.15);  /* replaces Waybar's default hover bg */
     box-shadow: none;
     text-shadow: none;
 }
 #workspaces button.active {
-    color: #ffffff;
-    border-bottom: 2px solid #7aa2f7;
+    color: #1a1b26;
+    background-color: #7aa2f7;
 }
 #workspaces button.urgent {
-    color: #f7768e;
-    border-bottom: 2px solid #f7768e;
+    color: #1a1b26;
+    background-color: #f7768e;
 }
 
 /* Window title (left side) */
