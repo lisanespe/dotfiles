@@ -31,10 +31,25 @@
         "modules": ["custom/gpu-usage", "custom/gpu-temp"]
     },
 
+    // Workspace number + one icon per open window (regex on class/title)
     "hyprland/workspaces": {
         "disable-scroll": true,
-        "all-outputs": true
-        
+        "all-outputs": true,
+        "format": "{name} {windows}",
+        "window-rewrite-default": "󰏗",
+        "window-rewrite": {
+            "class<firefox>": "󰈹",
+            "class<kitty> title<.*n?vim.*>": "",
+            "class<kitty>": "",
+            "class<[Ss]potify>": "󰓇",
+            "class<steam>": "󰓓",
+            "class<steam_app_.*>": "󰊗",
+            "class<org.kde.dolphin>": "󰉋",
+            "class<discord|vesktop>": "󰙯",
+            "class<code|code-oss|Code>": "󰨞",
+            "class<org.pulseaudio.pavucontrol>": "󰕾",
+            "class<.blueman-manager-wrapped>": "󰂯"
+        }
     },
 
     "hyprland/window": {
