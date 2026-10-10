@@ -189,6 +189,11 @@ hl.config({
         -- 2 = fullscreen only. Start here: always-on (1) can cause visible
         -- brightness flicker on VA panels when framerate drops low.
         vrr = 2,
+
+        -- If hyprlock crashes, the session stays locked (red screen). This
+        -- lets a new hyprlock take over: from a TTY (Ctrl+Alt+F3) run
+        --   hyprctl --instance 0 dispatch 'hl.dsp.exec_cmd("hyprlock")'
+        allow_session_lock_restore = true,
     },
 })
 
@@ -239,6 +244,9 @@ hl.bind(mainMod .. " + SPACE", hl.dsp.window.fullscreen())
 hl.bind(mainMod .. " + G",     hl.dsp.window.center())
 hl.bind(mainMod .. " + T",     hl.dsp.window.pin())
 
+-- Lock screen (config: hyprlock.conf). `pidof` stops a second instance.
+hl.bind(mainMod .. " + L", hl.dsp.exec_cmd("pidof hyprlock || hyprlock"))
+
 -- Screenshot region to clipboard. [[ ]] is a Lua raw string, so the inner
 -- double quotes and $(...) survive untouched.
 hl.bind(mainMod .. " + SHIFT + S", hl.dsp.exec_cmd([[grim -g "$(slurp)" - | wl-copy]]))
@@ -277,15 +285,13 @@ hl.bind(mainMod .. " + mouse_up",   hl.dsp.focus({ workspace = "e-1" }))
 hl.bind(mainMod .. " + mouse:272", hl.dsp.window.drag(),   { mouse = true })
 hl.bind(mainMod .. " + mouse:273", hl.dsp.window.resize(), { mouse = true })
 
--- Media / brightness keys.
+-- Media keys. (No brightness binds: the DP monitor has no backlight control.)
 -- locked = true    -> works with the screen locked (old `bindl`)
 -- repeating = true -> holds down to repeat        (old `binde`)
 hl.bind("XF86AudioRaiseVolume",  hl.dsp.exec_cmd("wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 5%+"), { locked = true, repeating = true })
 hl.bind("XF86AudioLowerVolume",  hl.dsp.exec_cmd("wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"),      { locked = true, repeating = true })
 hl.bind("XF86AudioMute",         hl.dsp.exec_cmd("wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"),     { locked = true, repeating = true })
 hl.bind("XF86AudioMicMute",      hl.dsp.exec_cmd("wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"),   { locked = true, repeating = true })
-hl.bind("XF86MonBrightnessUp",   hl.dsp.exec_cmd("brightnessctl -e4 -n2 set 5%+"),                  { locked = true, repeating = true })
-hl.bind("XF86MonBrightnessDown", hl.dsp.exec_cmd("brightnessctl -e4 -n2 set 5%-"),                  { locked = true, repeating = true })
 
 -- Requires playerctl
 hl.bind("XF86AudioNext",  hl.dsp.exec_cmd("playerctl next"),       { locked = true })

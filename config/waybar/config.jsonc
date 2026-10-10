@@ -45,7 +45,7 @@
     },
 
     "keyboard-state": {
-        "numlock": true,
+        "numlock": false, // no numpad on this keyboard
         "capslock": true,
         "device-path": "/dev/input/by-id/usb-MosArt_USB_Keyboard-event-kbd",
         "format": "{name} {icon}",

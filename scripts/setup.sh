@@ -74,8 +74,22 @@ install_keyd_config() {
         return 0
     fi
 
-    # TODO: put $source at $target, then run `sudo systemctl restart keyd`.
-    # (Not `keyd reload`: keyd 2.6.0 segfaults on live reload.)
+    # Copied, not symlinked: keyd starts at boot and must not depend on $HOME.
+    if [[ -f "$target" ]] && ! cmp -s "$source" "$target"; then
+        mkdir -p "$BACKUP_DIR"
+        log_warning "Backing up existing $target to $BACKUP_DIR"
+        sudo cp "$target" "$BACKUP_DIR/keyd-default.conf"
+    fi
+    sudo install -Dm644 "$source" "$target"
+
+    # Restart keyd automatically if it crashes (stock unit has Restart=no)
+    sudo install -Dm644 "$DOTFILES_DIR/config/keyd/keyd.service.d/restart.conf" \
+        /etc/systemd/system/keyd.service.d/restart.conf
+    sudo systemctl daemon-reload
+
+    # Restart, not `keyd reload`: keyd 2.6.0 segfaults on live reload.
+    sudo systemctl restart keyd
+    log_success "keyd config installed: $target"
 }
 
 main() {

@@ -108,9 +108,15 @@ window#waybar.empty #window {
     to   { background-color: #db4b4b; }
 }
 
-/* Keyboard state — locked = highlighted */
-#keyboard-state .locked {
-    color: #f7768e;
+/* Caps Lock: dim when off, red pill when on */
+#keyboard-state label {
+    color: #565f89;
+}
+#keyboard-state label.locked {
+    color: #1a1b26;
+    background-color: #f7768e;
+    border-radius: 6px;
+    padding: 0 6px;
 }
 
 /* Tooltip */
