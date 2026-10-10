@@ -98,6 +98,10 @@ install_keyd_config() {
         /etc/systemd/system/keyd.service.d/restart.conf
     sudo systemctl daemon-reload
 
+    # Stop joydev turning keyd's virtual pointer into a phantom joystick (js0)
+    sudo install -Dm644 "$DOTFILES_DIR/config/modprobe.d/no-joydev.conf" \
+        /etc/modprobe.d/no-joydev.conf
+
     # Restart, not `keyd reload`: keyd 2.6.0 segfaults on live reload.
     sudo systemctl restart keyd
     log_success "keyd config installed: $target"
