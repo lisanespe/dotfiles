@@ -35,6 +35,9 @@ hl.on("hyprland.start", function()
     hl.exec_cmd("waybar")
     hl.exec_cmd("hypridle")   -- idle lock / screen off (config/hypr/hypridle.conf)
     hl.exec_cmd("swaync")     -- notifications; start before D-Bus can activate mako
+    -- Clipboard history: store every text / image copy in cliphist
+    hl.exec_cmd("wl-paste --type text --watch cliphist store")
+    hl.exec_cmd("wl-paste --type image --watch cliphist store")
     hl.exec_cmd("/home/lisanespe/.local/bin/wallpaper-start")
     hl.exec_cmd("systemctl --user start hyprpolkitagent")
     hl.exec_cmd("spotify-launcher")
@@ -262,6 +265,11 @@ hl.bind(mainMod .. " + L", hl.dsp.exec_cmd("pidof hyprlock || hyprlock"))
 
 -- Notification center panel (swaync)
 hl.bind(mainMod .. " + N", hl.dsp.exec_cmd("swaync-client -t -sw"))
+
+-- Clipboard history: pick an entry with wofi and copy it back.
+-- SUPER+CTRL+V wipes the whole history.
+hl.bind(mainMod .. " + SHIFT + V", hl.dsp.exec_cmd("cliphist list | wofi --dmenu --prompt Clipboard --cache-file /dev/null | cliphist decode | wl-copy"))
+hl.bind(mainMod .. " + CTRL + V",  hl.dsp.exec_cmd([[cliphist wipe && notify-send "Clipboard" "History cleared"]]))
 
 -- Screenshot region to clipboard. [[ ]] is a Lua raw string, so the inner
 -- double quotes and $(...) survive untouched.

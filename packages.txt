@@ -22,6 +22,7 @@ firefox
 grim
 slurp
 wl-clipboard
+cliphist                     # clipboard history (SUPER+SHIFT+V, autostarted in hyprland.lua)
 wireplumber                  # wpctl volume keys
 playerctl
 
