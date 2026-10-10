@@ -140,7 +140,8 @@
         "interval": 2,
         "format": "{icon} {usage}%",
         "tooltip": true,
-        "format-icons": ["󰻠"]
+        "format-icons": ["󰻠"],
+        "states": { "warning": 70, "critical": 90 }
     },
 
     "custom/cpu-temp": {
@@ -152,7 +153,9 @@
     },
 
     "custom/gpu-usage": {
-        "exec": "cat /sys/class/drm/card1/device/gpu_busy_percent",
+        // Same 70 / 90 load thresholds as cpu and memory "states"
+        "exec": "u=$(cat /sys/class/drm/card1/device/gpu_busy_percent); cls=\"\"; [ \"$u\" -ge 70 ] && cls=\"warning\"; [ \"$u\" -ge 90 ] && cls=\"critical\"; printf '{\"text\":\"%s\",\"class\":\"%s\"}\\n' \"$u\" \"$cls\"",
+        "return-type": "json",
         "format": "󰢮 {}%",
         "interval": 2,
         "tooltip": false
@@ -168,7 +171,8 @@
 
     "memory": {
         "interval": 5,
-        "format": "󰍛 {used:0.1f}G/{total:0.1f}G"
+        "format": "󰍛 {used:0.1f}G/{total:0.1f}G",
+        "states": { "warning": 70, "critical": 90 }
     },
 
     "network": {

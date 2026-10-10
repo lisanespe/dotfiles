@@ -109,6 +109,23 @@ window#waybar.empty #window {
     color: #565f89;
 }
 
+/* Load states (cpu / memory "states", gpu script class): 70% orange, 90% red pill */
+#cpu.warning,
+#custom-gpu-usage.warning,
+#memory.warning {
+    color: #ff9e64;
+}
+#cpu.critical,
+#custom-gpu-usage.critical {
+    color: #1a1b26;
+    background-color: #f7768e;
+    border-radius: 4px;
+}
+#memory.critical {
+    color: #1a1b26;
+    background-color: #f7768e;
+}
+
 /* Critical temperature flash */
 #custom-cpu-temp.critical,
 #custom-gpu-temp.critical {
