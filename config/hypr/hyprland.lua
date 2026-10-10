@@ -90,8 +90,8 @@ load_environment_d(os.getenv("HOME") .. "/.config/environment.d/10-ssh-agent.con
 -- Refer to https://wiki.hypr.land/Configuring/Basics/Variables/
 hl.config({
     general = {
-        gaps_in     = 0,
-        gaps_out    = 1,
+        gaps_in     = 4,   -- between windows
+        gaps_out    = 8,   -- to screen edges; room for the 8px rounding
         border_size = 1,
 
         col = {
@@ -343,6 +343,30 @@ hl.window_rule({
     name           = "suppress-maximize-events",
     match          = { class = ".*" },
     suppress_event = "maximize",
+})
+
+-- Small tools and dialogs float centered instead of taking half the screen
+hl.window_rule({
+    name   = "float-tools",
+    match  = { class = "^(org\\.pulseaudio\\.pavucontrol|\\.?blueman-manager.*|nm-connection-editor)$" },
+    float  = true,
+    size   = { "(monitor_w*0.4)", "(monitor_h*0.5)" },
+    center = true,
+})
+
+hl.window_rule({
+    name   = "float-file-dialogs",
+    match  = { title = "^(Open File|Open Files|Save As|Save File|Open Folder|Select Folder|File Upload|Choose Files).*" },
+    float  = true,
+    size   = { "(monitor_w*0.5)", "(monitor_h*0.6)" },
+    center = true,
+})
+
+hl.window_rule({
+    name   = "float-steam-popups",
+    match  = { class = "^steam$", title = "^(Friends List|Steam Settings|Screenshot Manager|Steam - News.*)$" },
+    float  = true,
+    center = true,
 })
 
 hl.window_rule({

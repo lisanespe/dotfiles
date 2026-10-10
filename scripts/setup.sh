@@ -125,6 +125,9 @@ main() {
     # Waybar configuration
     create_symlink "$DOTFILES_DIR/config/waybar" "$HOME/.config/waybar"
 
+    # wofi theme (imports ~/.config/waybar/colors.css, so link Waybar first)
+    create_symlink "$DOTFILES_DIR/config/wofi" "$HOME/.config/wofi"
+
     # Kitty configuration
     create_symlink "$DOTFILES_DIR/config/misc/kitty" "$HOME/.config/kitty"
 

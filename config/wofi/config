@@ -1,0 +1,10 @@
+# wofi defaults (app launcher SUPER+R, power menu, clipboard picker)
+# Colors live in style.css, which imports the Waybar palette.
+width=500
+lines=8
+prompt=Search
+insensitive=true
+allow_images=true
+image_size=24
+hide_scroll=true
+no_actions=true

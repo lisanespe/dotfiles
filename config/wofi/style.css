@@ -1,0 +1,52 @@
+/* wofi: Tokyo Night, same palette as Waybar (config/waybar/colors.css).
+   Absolute path on purpose: wofi hands GTK the CSS as a string, so a
+   relative @import resolves from the working directory, not this file. */
+@import "/home/lisanespe/.config/waybar/colors.css";
+
+* {
+    font-family: "UbuntuMono Nerd Font Propo", monospace;
+    font-size: 18px;
+}
+
+window {
+    background-color: alpha(@bg, 0.95);
+    border: 2px solid @blue;
+    border-radius: 8px;
+}
+
+#outer-box {
+    padding: 8px;
+}
+
+#input {
+    margin-bottom: 8px;
+    padding: 6px 10px;
+    color: @fg;
+    background-color: @bg_hl;
+    border: none;
+    border-radius: 8px;
+    box-shadow: none;
+}
+#input:focus {
+    border: 1px solid @purple;
+}
+
+#entry {
+    padding: 6px 10px;
+    border-radius: 8px;
+}
+#entry:selected {
+    background-color: @blue;
+    outline: none;
+}
+
+#text {
+    color: @fg;
+}
+#entry:selected #text {
+    color: @bg;
+}
+
+#img {
+    margin-right: 8px;
+}
