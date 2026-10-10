@@ -34,6 +34,7 @@ local menu        = "wofi --show drun"
 hl.on("hyprland.start", function()
     hl.exec_cmd("waybar")
     hl.exec_cmd("hypridle")   -- idle lock / screen off (config/hypr/hypridle.conf)
+    hl.exec_cmd("swaync")     -- notifications; start before D-Bus can activate mako
     hl.exec_cmd("/home/lisanespe/.local/bin/wallpaper-start")
     hl.exec_cmd("systemctl --user start hyprpolkitagent")
     hl.exec_cmd("spotify-launcher")
@@ -258,6 +259,9 @@ hl.bind(mainMod .. " + T",     hl.dsp.window.pin())
 
 -- Lock screen (config: hyprlock.conf). `pidof` stops a second instance.
 hl.bind(mainMod .. " + L", hl.dsp.exec_cmd("pidof hyprlock || hyprlock"))
+
+-- Notification center panel (swaync)
+hl.bind(mainMod .. " + N", hl.dsp.exec_cmd("swaync-client -t -sw"))
 
 -- Screenshot region to clipboard. [[ ]] is a Lua raw string, so the inner
 -- double quotes and $(...) survive untouched.

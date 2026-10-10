@@ -56,6 +56,7 @@ window#waybar.empty #window {
 #tray,
 #keyboard-state,
 #custom-updates,
+#custom-notification,
 #idle_inhibitor,
 #custom-power {
     padding: 2px 12px;
@@ -91,6 +92,10 @@ window#waybar.empty #window {
 #custom-updates     { color: #7dcfff; }
 #custom-power       { color: #f7768e; }
 #idle_inhibitor     { color: #565f89; }
+#custom-notification { color: #c0caf5; }
+#custom-notification.notification { color: #e0af68; }
+#custom-notification.dnd-none,
+#custom-notification.dnd-notification { color: #565f89; }
 
 /* Disconnected / muted states */
 #network.disconnected {

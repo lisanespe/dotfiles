@@ -5,6 +5,7 @@
 hyprland
 hyprlock                     # SUPER+L lock screen (config/hypr/hyprlock.conf)
 hypridle                     # idle lock + screen off (config/hypr/hypridle.conf)
+swaync                       # notification daemon + panel (SUPER+N, Waybar bell)
 hyprpolkitagent
 xdg-desktop-portal-hyprland
 waybar

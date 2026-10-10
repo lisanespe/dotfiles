@@ -6,6 +6,7 @@
     "modules-left": ["hyprland/workspaces", "hyprland/window"],
     "modules-center": ["clock", "mpris"],
     "modules-right": [
+        "custom/notification",
         "custom/updates",
         "idle_inhibitor",
         "tray",
@@ -70,6 +71,29 @@
         },
         "tooltip-format-activated": "Staying awake",
         "tooltip-format-deactivated": "Idle lock on"
+    },
+
+    // swaync bell: unread count, click opens panel, right click toggles DND
+    "custom/notification": {
+        // Hide the count at 0. Text must stay non-empty or Waybar hides the bell.
+        "exec": "swaync-client -swb | sed -u -e 's/\"text\": \"0\"/\"text\": \"\"/' -e 's/\"text\": \"/\"text\": \" /'",
+        "exec-if": "which swaync-client",
+        "return-type": "json",
+        "format": "{icon}{text}",
+        "format-icons": {
+            "notification": "󱅫",
+            "none": "󰂚",
+            "dnd-notification": "󰂛",
+            "dnd-none": "󰂛",
+            "inhibited-notification": "󱅫",
+            "inhibited-none": "󰂚",
+            "dnd-inhibited-notification": "󰂛",
+            "dnd-inhibited-none": "󰂛"
+        },
+        "tooltip": false,
+        "escape": true,
+        "on-click": "sleep 0.1 && swaync-client -t -sw",
+        "on-click-right": "sleep 0.1 && swaync-client -d -sw"
     },
 
     "tray": {
