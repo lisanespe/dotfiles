@@ -55,7 +55,8 @@ window#waybar.empty #window {
 #pulseaudio,
 #tray,
 #keyboard-state,
-#custom-updates {
+#custom-updates,
+#custom-power {
     padding: 2px 12px;
     margin: 4px 2px;
     color: #ffffff;
@@ -87,6 +88,7 @@ window#waybar.empty #window {
 #tray               { color: #c0caf5; }
 #keyboard-state     { color: #e0af68; }
 #custom-updates     { color: #7dcfff; }
+#custom-power       { color: #f7768e; }
 
 /* Disconnected / muted states */
 #network.disconnected {
@@ -117,6 +119,12 @@ window#waybar.empty #window {
 #custom-updates.warning {
     color: #1a1b26;
     background-color: #ff9e64;
+}
+
+/* Power button: red pill on hover */
+#custom-power:hover {
+    color: #1a1b26;
+    background-color: #f7768e;
 }
 
 /* Caps Lock: dim when off, red pill when on */

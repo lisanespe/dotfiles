@@ -14,7 +14,8 @@
         "memory",
         "network",
         "bluetooth",
-        "pulseaudio"
+        "pulseaudio",
+        "custom/power"
     ],
 
     // CPU and GPU usage + temperature share one pill each
@@ -50,6 +51,13 @@
         "signal": 8,
         "on-click": "kitty -e sh -c 'sudo pacman -Syu; pkill -RTMIN+8 waybar'",
         "on-click-right": "pkill -RTMIN+8 waybar"
+    },
+
+    // Power button: wofi menu with lock, suspend, logout, reboot, shutdown
+    "custom/power": {
+        "format": "󰐥",
+        "tooltip-format": "Power menu",
+        "on-click": "~/.config/waybar/scripts/powermenu.sh"
     },
 
     "tray": {
