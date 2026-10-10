@@ -1,0 +1,29 @@
+[Unit]
+Description=Bazarr - subtitle management
+After=network-online.target
+Wants=network-online.target
+After=sonarr.service radarr.service
+RequiresMountsFor=/mnt/data
+
+[Container]
+Image=lscr.io/linuxserver/bazarr:latest
+ContainerName=bazarr
+AutoUpdate=registry
+
+Network=media.network
+PublishPort=6767:6767
+
+UserNS=keep-id:uid=1000,gid=1000
+
+Environment=PUID=1000
+Environment=PGID=1000
+Environment=TZ=America/Argentina/Buenos_Aires
+
+Volume=%h/media-stack/config/bazarr:/config
+Volume=/mnt/data:/mnt/data
+
+[Service]
+Restart=always
+
+[Install]
+WantedBy=default.target

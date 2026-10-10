@@ -1,6 +1,7 @@
 [Unit]
 Description=Jellyfin Media Server
 After=local-fs.target network-online.target
+RequiresMountsFor=/mnt/data
 
 [Container]
 Image=docker.io/jellyfin/jellyfin:10.11.8

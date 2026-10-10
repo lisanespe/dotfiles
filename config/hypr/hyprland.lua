@@ -37,16 +37,20 @@ hl.on("hyprland.start", function()
     hl.exec_cmd("sh -c 'sleep 1; awww restore'")
     hl.exec_cmd("systemctl --user start hyprpolkitagent")
     hl.exec_cmd("flatpak run com.spotify.Client")
-    hl.env("SSH_AUTH_SOCK", "/run/user/1000/ssh-agent.socket")
-    hl.env("SSH_ASKPASS", "/usr/bin/ksshaskpass")
-    hl.env("SSH_ASKPASS_REQUIRE", "prefer")
 end)
+
 -------------------------------
 ---- ENVIRONMENT VARIABLES ----
 -------------------------------
 -- See https://wiki.hypr.land/Configuring/Advanced-and-Cool/Environment-variables/
 hl.env("XCURSOR_SIZE", "24")
 hl.env("HYPRCURSOR_SIZE", "24")
+
+-- SSH agent (systemd user socket). Set at top level so autostarted
+-- programs inherit them too, not only apps launched later.
+hl.env("SSH_AUTH_SOCK", "/run/user/1000/ssh-agent.socket")
+hl.env("SSH_ASKPASS", "/usr/bin/ksshaskpass")
+hl.env("SSH_ASKPASS_REQUIRE", "prefer")
 
 -- Optional, but recommended on your setup:
 -- hl.env("ELECTRON_OZONE_PLATFORM_HINT", "auto")  -- native Wayland for Electron apps
@@ -210,23 +214,7 @@ hl.config({
 
         follow_mouse = 1,
         sensitivity  = 0, -- -1.0 to 1.0, 0 means no modification
-
-        touchpad = {
-            natural_scroll = false,
-        },
     },
-})
-
-hl.gesture({
-    fingers   = 3,
-    direction = "horizontal",
-    action    = "workspace",
-})
-
--- Example per-device config
-hl.device({
-    name        = "epic-mouse-v1",
-    sensitivity = -0.5,
 })
 
 ---------------------
@@ -334,5 +322,4 @@ hl.window_rule({
     name      = "spotify-to-magic",
     match     = { class = "^(spotify)$" },
     workspace = "special:magic",
-   
 })
