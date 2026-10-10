@@ -8,7 +8,7 @@
 }
 
 window#waybar {
-    background-color: alpha(@bg_dark, 0.9);
+    background-color: alpha(@bg_dark, 0.75);  /* lower alpha lets the Hyprland blur show */
     color: @fg;
     border-bottom: 2px solid alpha(@black, 0.6);
 }
