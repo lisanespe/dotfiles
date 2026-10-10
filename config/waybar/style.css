@@ -46,6 +46,7 @@ window#waybar.empty #window {
 
 /* Shared padding for all right-side modules */
 #clock,
+#mpris,
 #hw-cpu,
 #hw-gpu,
 #memory,
@@ -73,6 +74,8 @@ window#waybar.empty #window {
 
 /* Per-module accent colors */
 #clock              { color: #c0caf5; }
+#mpris              { color: #9ece6a; }
+#mpris.paused       { color: #565f89; }
 #cpu                { color: #9ece6a; }
 #custom-cpu-temp    { color: #9ece6a; }
 #custom-gpu-usage   { color: #f7768e; }

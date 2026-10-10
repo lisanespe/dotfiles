@@ -4,7 +4,7 @@
     "height": 33,
     "spacing": 4,
     "modules-left": ["hyprland/workspaces", "hyprland/window"],
-    "modules-center": ["clock"],
+    "modules-center": ["clock", "mpris"],
     "modules-right": [
         "custom/updates",
         "tray",
@@ -71,6 +71,25 @@
     "clock": {
         "format": "󰥔 {:%H:%M  %d/%m/%Y}",
         "tooltip-format": "<big>{:%Y %B}</big>\n<tt>{calendar}</tt>"
+    },
+
+    // Now playing (Spotify, Firefox, ...); hidden when no player is active.
+    // Click play/pause, right click next, middle click previous.
+    "mpris": {
+        "format": "{player_icon} {dynamic}",
+        "format-paused": "{status_icon} <i>{dynamic}</i>",
+        "dynamic-order": ["title", "artist"],
+        "dynamic-len": 40,
+        "player-icons": {
+            "default": "󰎆",
+            "spotify": "󰓇",
+            "firefox": "󰈹"
+        },
+        "status-icons": {
+            "paused": "󰏤"
+        },
+        "on-click-right": "playerctl next",
+        "on-click-middle": "playerctl previous"
     },
 
     "cpu": {
