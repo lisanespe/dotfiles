@@ -63,6 +63,17 @@ create_symlink() {
     log_success "Created symlink: $target -> $source"
 }
 
+# Install pacman packages from packages.txt.
+# --needed skips what is already installed, so re-running is cheap.
+install_packages() {
+    local list
+    list=$(grep -vE '^\s*(#|$)' "$DOTFILES_DIR/packages.txt" | sed 's/\s*#.*//')
+    log_info "Installing pacman packages"
+    # shellcheck disable=SC2086  # word splitting is intended: one arg per package
+    sudo pacman -S --needed --noconfirm $list
+    log_success "Packages installed"
+}
+
 # Install the side-keyboard keyd config into /etc/keyd (root-owned, needs sudo).
 # keyd runs as a root system service and starts at boot, before login.
 install_keyd_config() {
@@ -94,6 +105,9 @@ install_keyd_config() {
 
 main() {
      log_info "Setting up dotfiles from $DOTFILES_DIR"
+
+    # Packages first: later steps need keyd, podman, etc.
+    install_packages
 
     # Shell configuration
     create_symlink "$DOTFILES_DIR/config/shell/.bashrc" "$HOME/.bashrc"

@@ -36,7 +36,7 @@ hl.on("hyprland.start", function()
     hl.exec_cmd("awww-daemon")
     hl.exec_cmd("sh -c 'sleep 1; awww restore'")
     hl.exec_cmd("systemctl --user start hyprpolkitagent")
-    hl.exec_cmd("flatpak run com.spotify.Client")
+    hl.exec_cmd("spotify-launcher")
 end)
 
 -------------------------------

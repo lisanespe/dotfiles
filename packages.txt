@@ -1,0 +1,43 @@
+# Official-repo packages used by this dotfiles config.
+# Installed by scripts/setup.sh: pacman -S --needed. One package per line; # starts a comment.
+
+# Hyprland desktop
+hyprland
+hyprlock                     # SUPER+L lock screen (config/hypr/hyprlock.conf)
+hyprpolkitagent
+xdg-desktop-portal-hyprland
+waybar
+wofi                         # app launcher (SUPER+R)
+awww                         # wallpaper daemon
+ttf-ubuntu-mono-nerd         # Waybar font (UbuntuMono Nerd Font Propo)
+
+# Apps bound in hyprland.lua
+kitty
+dolphin
+firefox
+
+# Screenshot, clipboard, media keys
+grim
+slurp
+wl-clipboard
+wireplumber                  # wpctl volume keys
+playerctl
+
+# Waybar modules
+lm_sensors                   # CPU/GPU temperature
+blueman                      # bluetooth on-click
+pavucontrol                  # volume on-click
+
+# Input and SSH
+keyd                         # side keyboard remap (config/keyd)
+ksshaskpass
+openssh
+
+# Media stack and services
+podman                       # Quadlets in config/jellyfin and config/media-stack
+qbittorrent-nox
+
+# Tools
+neovim
+git
+spotify-launcher             # Spotify (downloads the official client), autostarted in hyprland.lua
