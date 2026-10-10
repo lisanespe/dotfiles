@@ -8,15 +8,24 @@
     "modules-right": [
         "tray",
         "keyboard-state",
-        "cpu",
-        "custom/cpu-temp",
-        "custom/gpu-usage",
-        "custom/gpu-temp",
+        "group/hw-cpu",
+        "group/hw-gpu",
         "memory",
         "network",
         "bluetooth",
         "pulseaudio"
     ],
+
+    // CPU and GPU usage + temperature share one pill each
+    "group/hw-cpu": {
+        "orientation": "horizontal",
+        "modules": ["cpu", "custom/cpu-temp"]
+    },
+
+    "group/hw-gpu": {
+        "orientation": "horizontal",
+        "modules": ["custom/gpu-usage", "custom/gpu-temp"]
+    },
 
     "hyprland/workspaces": {
         "disable-scroll": true,
@@ -38,7 +47,7 @@
     "keyboard-state": {
         "numlock": true,
         "capslock": true,
-        "device-path": "/dev/input/by-path/pci-0000:0b:00.3-usb-0:3:1.0-event-kbd",
+        "device-path": "/dev/input/by-id/usb-MosArt_USB_Keyboard-event-kbd",
         "format": "{name} {icon}",
         "format-icons": {
             "locked": "󰌾 ",
@@ -47,7 +56,7 @@
     },
 
     "clock": {
-        "format": "  {:%H:%M  %d/%m/%Y}",
+        "format": "󰥔 {:%H:%M  %d/%m/%Y}",
         "tooltip-format": "<big>{:%Y %B}</big>\n<tt>{calendar}</tt>"
     },
 
@@ -55,22 +64,20 @@
         "interval": 2,
         "format": "{icon} {usage}%",
         "tooltip": true,
-        "format-icons": [
-          "<span size='x-large'>󰻠</span>"
-     ]
+        "format-icons": ["󰻠"]
     },
 
     "custom/cpu-temp": {
     	"exec": "t=$(sensors -u k10temp-pci-00c3 | awk '/^  temp1_input:/ {printf \"%.0f\", $2}'); cls=\"\"; [ \"$t\" -ge 85 ] && cls=\"critical\"; printf '{\"text\":\"%s\",\"class\":\"%s\"}\\n' \"$t\" \"$cls\"",
         "return-type": "json",
-        "format": " {}°C",
+        "format": "󰔏 {}°C",
         "interval": 2,
         "tooltip": false
     },
 
     "custom/gpu-usage": {
-        "exec": "cat /sys/class/drm/card1/device/gpu_busy_percent 2>/dev/null || cat /sys/class/drm/card0/device/gpu_busy_percent",
-        "format": " 󰢮 {}%",
+        "exec": "cat /sys/class/drm/card1/device/gpu_busy_percent",
+        "format": "󰢮 {}%",
         "interval": 2,
         "tooltip": false
     },
@@ -78,26 +85,27 @@
     "custom/gpu-temp": {
         "exec": "t=$(sensors -u amdgpu-pci-0900 | awk '/^  temp1_input:/ {printf \"%.0f\", $2; exit}'); cls=\"\"; [ \"$t\" -ge 90 ] && cls=\"critical\"; printf '{\"text\":\"%s\",\"class\":\"%s\"}\\n' \"$t\" \"$cls\"",
         "return-type": "json",
-        "format": " {}°C",
+        "format": "󰔏 {}°C",
         "interval": 2,
         "tooltip": false
     },
 
     "memory": {
         "interval": 5,
-        "format": "  {used:0.1f}G/{total:0.1f}G"
+        "format": "󰍛 {used:0.1f}G/{total:0.1f}G"
     },
 
     "network": {
-        "format-wifi": " {essid} ({signalStrength}%)",
-        "format-ethernet": " {ifname}",
+        "format-wifi": "󰖩 {essid} ({signalStrength}%)",
+        "format-ethernet": "󰈀 {ifname}",
         "format-disconnected": "󰖪 Disconnected",
         "tooltip-format": "{ifname}: {ipaddr}"
     },
 
     "bluetooth": {
-        "format": "󰂯 {status}",
-        "format-connected": "󰂯 {device_alias}",
+        "format": "󰂯",
+        "format-off": "󰂲",
+        "format-connected": "󰂱 {device_alias}",
         "tooltip-format": "{controller_alias}\t{controller_address}",
         "tooltip-format-connected": "{device_enumerate}",
         "on-click": "blueman-manager"

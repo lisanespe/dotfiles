@@ -1,5 +1,6 @@
 * {
-    font-family: "UbuntuMono Nerd Font Mono", monospace;
+    /* Propo, not Mono: Mono squeezes Nerd Font icons into one narrow cell */
+    font-family: "UbuntuMono Nerd Font Propo", monospace;
     font-size: 20px;
     min-height: 0;
 }
@@ -45,10 +46,8 @@ window#waybar.empty #window {
 
 /* Shared padding for all right-side modules */
 #clock,
-#cpu,
-#custom-cpu-temp,
-#custom-gpu-usage,
-#custom-gpu-temp,
+#hw-cpu,
+#hw-gpu,
 #memory,
 #network,
 #bluetooth,
@@ -60,6 +59,15 @@ window#waybar.empty #window {
     color: #ffffff;
     background-color: rgba(40, 42, 54, 0.6);
     border-radius: 8px;
+}
+
+/* Modules inside a group pill: no own background */
+#cpu,
+#custom-cpu-temp,
+#custom-gpu-usage,
+#custom-gpu-temp {
+    padding: 0 4px;
+    background: transparent;
 }
 
 /* Per-module accent colors */

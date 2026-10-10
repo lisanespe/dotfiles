@@ -79,10 +79,10 @@ hl.config({
         border_size = 1,
 
         col = {
-            -- Your old value was rgb(E96B74) twice = a gradient between one colour,
-            -- which is just a solid colour. Simplified.
-            active_border   = "rgb(E96B74)",
-            inactive_border = { colors = { "rgb(98C379)", "rgb(1B70D8)" }, angle = 180 },
+            -- Tokyo Night, same palette as Waybar (config/waybar/style.css):
+            -- blue -> purple on the focused window, muted grey-blue elsewhere.
+            active_border   = { colors = { "rgb(7aa2f7)", "rgb(bb9af7)" }, angle = 45 },
+            inactive_border = "rgb(414868)",
         },
 
         resize_on_border = false,
