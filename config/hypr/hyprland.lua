@@ -297,6 +297,10 @@ hl.bind(mainMod .. " + SHIFT + C", hl.dsp.exec_cmd([[c=$(hyprpicker -a -b -l -f 
 -- double quotes and $(...) survive untouched.
 hl.bind(mainMod .. " + SHIFT + S", hl.dsp.exec_cmd([[grim -g "$(slurp)" - | wl-copy]]), { description = "Screenshot region to clipboard" })
 
+-- Keybind cheat sheet: lists every bind's `description` in wofi.
+-- Keep a description on each new hl.bind so it shows up here.
+hl.bind(mainMod .. " + F1", hl.dsp.exec_cmd("~/.config/hypr/scripts/keybinds.sh"), { description = "Keybind cheat sheet" })
+
 -- Move focus with mainMod + arrow keys
 hl.bind(mainMod .. " + left",  hl.dsp.focus({ direction = "left" }), { description = "Focus left" })
 hl.bind(mainMod .. " + right", hl.dsp.focus({ direction = "right" }), { description = "Focus right" })
