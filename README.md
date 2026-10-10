@@ -11,6 +11,7 @@ dotfiles/
 │   ├── waybar/         # Status bar configuration  
 │   ├── shell/          # Shell configuration (bashrc)
 │   ├── git/            # Git configuration
+│   ├── bin/            # Personal scripts, linked into ~/.local/bin
 │   └── misc/           # Other configs (kitty, nvim, etc.)
 ├── scripts/
 │   └── setup.sh        # Installation script
@@ -81,6 +82,10 @@ To update your dotfiles repository with new changes:
 - Symlinks allow live editing - changes in dotfiles directory immediately apply
 - History is limited to 1000 commands in memory, 2000 in file
 - Fastfetch runs once per terminal session
+- Animated wallpaper: `config/bin/wallpaper-start` runs Wallpaper Engine scenes through
+  `linux-wallpaperengine-git` (AUR, install with `yay -S linux-wallpaperengine-git`; needs
+  Wallpaper Engine installed in Steam for its assets). Change `WALLPAPER=` to any scene or
+  video Workshop ID; Web wallpapers render black. Falls back to `awww` if the package is missing.
 
 ## 🖥️ System Info
 

@@ -1,0 +1,15 @@
+#!/bin/sh
+# Start animated wallpaper via linux-wallpaperengine; fall back to awww static image.
+# Change WALLPAPER to any Steam Workshop ID from steamapps/workshop/content/431960.
+WALLPAPER=1199910952
+SCREEN=DP-1
+
+if command -v linux-wallpaperengine >/dev/null 2>&1; then
+    # Preload CEF so its dlsym(RTLD_NEXT, "close") finds libc; without it CEF aborts
+    # at startup with "close symbol missing".
+    LD_PRELOAD=/opt/linux-wallpaperengine/libcef.so exec linux-wallpaperengine --screen-root "$SCREEN" --silent "$WALLPAPER"
+else
+    awww-daemon &
+    sleep 1
+    exec awww restore
+fi

@@ -119,6 +119,9 @@ main() {
     # Hyprland configuration
     create_symlink "$DOTFILES_DIR/config/hypr" "$HOME/.config/hypr"
 
+    # Wallpaper launcher (Hyprland autostart runs it; needs AUR linux-wallpaperengine-git)
+    create_symlink "$DOTFILES_DIR/config/bin/wallpaper-start" "$HOME/.local/bin/wallpaper-start"
+
     # Waybar configuration
     create_symlink "$DOTFILES_DIR/config/waybar" "$HOME/.config/waybar"
 
