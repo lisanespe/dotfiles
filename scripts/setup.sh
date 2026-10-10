@@ -107,6 +107,21 @@ install_keyd_config() {
     log_success "keyd config installed: $target"
 }
 
+# GTK on Wayland reads gsettings (dconf), not settings.ini, so set both.
+# Theme needs AUR tokyonight-gtk-theme-git; icons and cursor are in packages.txt.
+apply_theme() {
+    if ! command -v gsettings >/dev/null 2>&1; then
+        log_warning "gsettings not found, skipping theme"
+        return 0
+    fi
+    gsettings set org.gnome.desktop.interface gtk-theme    "Tokyonight-Dark"
+    gsettings set org.gnome.desktop.interface icon-theme   "Papirus-Dark"
+    gsettings set org.gnome.desktop.interface cursor-theme "breeze_cursors"
+    gsettings set org.gnome.desktop.interface cursor-size  24
+    gsettings set org.gnome.desktop.interface color-scheme "prefer-dark"
+    log_success "GTK theme applied"
+}
+
 main() {
      log_info "Setting up dotfiles from $DOTFILES_DIR"
 
@@ -124,6 +139,12 @@ main() {
 
     # Waybar configuration
     create_symlink "$DOTFILES_DIR/config/waybar" "$HOME/.config/waybar"
+
+    # GTK settings (Tokyo Night theme, Papirus icons, Breeze cursor)
+    create_symlink "$DOTFILES_DIR/config/gtk-3.0/settings.ini" "$HOME/.config/gtk-3.0/settings.ini"
+    create_symlink "$DOTFILES_DIR/config/gtk-4.0/settings.ini" "$HOME/.config/gtk-4.0/settings.ini"
+
+    apply_theme
 
     # wofi theme (imports ~/.config/waybar/colors.css, so link Waybar first)
     create_symlink "$DOTFILES_DIR/config/wofi" "$HOME/.config/wofi"

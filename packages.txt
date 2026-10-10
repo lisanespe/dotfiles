@@ -10,6 +10,8 @@ hyprpolkitagent
 xdg-desktop-portal-hyprland
 waybar
 wofi                         # app launcher (SUPER+R)
+papirus-icon-theme           # Papirus-Dark icons (config/gtk-3.0, apply_theme in setup.sh)
+breeze-cursors               # cursor theme (XCURSOR_THEME in hyprland.lua)
 awww                         # wallpaper daemon
 ttf-ubuntu-mono-nerd         # Waybar font (UbuntuMono Nerd Font Propo)
 
@@ -22,6 +24,7 @@ firefox
 grim
 slurp
 wl-clipboard
+hyprpicker                   # color picker (SUPER+SHIFT+C)
 cliphist                     # clipboard history (SUPER+SHIFT+V, autostarted in hyprland.lua)
 wireplumber                  # wpctl volume keys
 playerctl

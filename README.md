@@ -86,6 +86,9 @@ To update your dotfiles repository with new changes:
   `linux-wallpaperengine-git` (AUR, install with `yay -S linux-wallpaperengine-git`; needs
   Wallpaper Engine installed in Steam for its assets). Change `WALLPAPER=` to any scene or
   video Workshop ID; Web wallpapers render black. Falls back to `awww` if the package is missing.
+- App theme: GTK apps use `Tokyonight-Dark` from `tokyonight-gtk-theme-git` (AUR, install with
+  `yay -S tokyonight-gtk-theme-git`), with Papirus-Dark icons and the Breeze cursor. Qt apps
+  (Dolphin) follow the GTK colors through `QT_QPA_PLATFORMTHEME=gtk3` in `hyprland.lua`.
 
 ## 🖥️ System Info
 

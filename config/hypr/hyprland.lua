@@ -49,6 +49,11 @@ end)
 -- See https://wiki.hypr.land/Configuring/Advanced-and-Cool/Environment-variables/
 hl.env("XCURSOR_SIZE", "24")
 hl.env("HYPRCURSOR_SIZE", "24")
+hl.env("XCURSOR_THEME", "breeze_cursors")    -- same cursor as GTK (config/gtk-3.0)
+hl.env("HYPRCURSOR_THEME", "breeze_cursors")
+-- Qt apps (Dolphin) borrow the GTK theme colors and icons, so they match
+-- Tokyo Night without qt6ct or Kvantum. Plugin ships with qt6-base.
+hl.env("QT_QPA_PLATFORMTHEME", "gtk3")
 
 -- SSH agent variables, read from the same environment.d file systemd uses
 -- (config/environment.d/ssh-agent.conf), so they are defined only once.
@@ -173,23 +178,25 @@ hl.layer_rule({
     ignore_alpha = 0.3,
 })
 
--- "Smart gaps" / "No gaps when only" - uncomment all if you want it.
--- hl.workspace_rule({ workspace = "w[tv1]", gaps_out = 0, gaps_in = 0 })
--- hl.workspace_rule({ workspace = "f[1]",   gaps_out = 0, gaps_in = 0 })
---
--- hl.window_rule({
---     name  = "no-gaps-wtv1",
---     match = { float = false, workspace = "w[tv1]" },
---     border_size = 0,
---     rounding    = 0,
--- })
---
--- hl.window_rule({
---     name  = "no-gaps-f1",
---     match = { float = false, workspace = "f[1]" },
---     border_size = 0,
---     rounding    = 0,
--- })
+-- Smart gaps: a lone tiled window (w[tv1]) or a maximized one (f[1]) fills
+-- the screen with no gaps, border or rounding. Two or more windows get the
+-- normal 4 / 8 gaps again.
+hl.workspace_rule({ workspace = "w[tv1]", gaps_out = 0, gaps_in = 0 })
+hl.workspace_rule({ workspace = "f[1]",   gaps_out = 0, gaps_in = 0 })
+
+hl.window_rule({
+    name  = "no-gaps-wtv1",
+    match = { float = false, workspace = "w[tv1]" },
+    border_size = 0,
+    rounding    = 0,
+})
+
+hl.window_rule({
+    name  = "no-gaps-f1",
+    match = { float = false, workspace = "f[1]" },
+    border_size = 0,
+    rounding    = 0,
+})
 
 -----------------
 ---- LAYOUTS ----
@@ -253,50 +260,55 @@ hl.config({
 ---------------------
 local mainMod = "SUPER"
 
-hl.bind(mainMod .. " + Q", hl.dsp.exec_cmd(terminal))
-hl.bind(mainMod .. " + C", hl.dsp.window.close())
-hl.bind(mainMod .. " + M", hl.dsp.exec_cmd("command -v hyprshutdown >/dev/null 2>&1 && hyprshutdown || hyprctl dispatch 'hl.dsp.exit()'"))
-hl.bind(mainMod .. " + E", hl.dsp.exec_cmd(fileManager))
-hl.bind(mainMod .. " + F", hl.dsp.exec_cmd(browser))
-hl.bind(mainMod .. " + V", hl.dsp.window.float({ action = "toggle" }))
-hl.bind(mainMod .. " + R", hl.dsp.exec_cmd(menu))
-hl.bind(mainMod .. " + P", hl.dsp.window.pseudo())
-hl.bind(mainMod .. " + J", hl.dsp.layout("togglesplit")) -- dwindle only
+hl.bind(mainMod .. " + Q", hl.dsp.exec_cmd(terminal), { description = "Terminal (kitty)" })
+hl.bind(mainMod .. " + C", hl.dsp.window.close(), { description = "Close window" })
+hl.bind(mainMod .. " + M", hl.dsp.exec_cmd("command -v hyprshutdown >/dev/null 2>&1 && hyprshutdown || hyprctl dispatch 'hl.dsp.exit()'"), { description = "Exit Hyprland" })
+hl.bind(mainMod .. " + E", hl.dsp.exec_cmd(fileManager), { description = "File manager (Dolphin)" })
+hl.bind(mainMod .. " + F", hl.dsp.exec_cmd(browser), { description = "Browser (Firefox)" })
+hl.bind(mainMod .. " + V", hl.dsp.window.float({ action = "toggle" }), { description = "Toggle floating" })
+hl.bind(mainMod .. " + R", hl.dsp.exec_cmd(menu), { description = "App launcher (wofi)" })
+hl.bind(mainMod .. " + P", hl.dsp.window.pseudo(), { description = "Pseudo-tile window" })
+hl.bind(mainMod .. " + J", hl.dsp.layout("togglesplit"), { description = "Toggle split direction" }) -- dwindle only
 
 -- Dispatchers below confirmed present in your build via:
 --   hyprctl repl 'for k in pairs(hl.dsp.window) do print(k) end'
 -- Check argument signatures in ~/dotfiles/config/hypr/hl.meta.lua before editing.
-hl.bind(mainMod .. " + SPACE", hl.dsp.window.fullscreen())
-hl.bind(mainMod .. " + G",     hl.dsp.window.center())
-hl.bind(mainMod .. " + T",     hl.dsp.window.pin())
+hl.bind(mainMod .. " + SPACE", hl.dsp.window.fullscreen(), { description = "Fullscreen" })
+hl.bind(mainMod .. " + G",     hl.dsp.window.center(), { description = "Center floating window" })
+hl.bind(mainMod .. " + T",     hl.dsp.window.pin(), { description = "Pin window (all workspaces)" })
 
 -- Lock screen (config: hyprlock.conf). `pidof` stops a second instance.
-hl.bind(mainMod .. " + L", hl.dsp.exec_cmd("pidof hyprlock || hyprlock"))
+hl.bind(mainMod .. " + L", hl.dsp.exec_cmd("pidof hyprlock || hyprlock"), { description = "Lock screen" })
 
 -- Notification center panel (swaync)
-hl.bind(mainMod .. " + N", hl.dsp.exec_cmd("swaync-client -t -sw"))
+hl.bind(mainMod .. " + N", hl.dsp.exec_cmd("swaync-client -t -sw"), { description = "Notification center" })
 
 -- Clipboard history: pick an entry with wofi and copy it back.
 -- SUPER+CTRL+V wipes the whole history.
-hl.bind(mainMod .. " + SHIFT + V", hl.dsp.exec_cmd("cliphist list | wofi --dmenu --prompt Clipboard --cache-file /dev/null | cliphist decode | wl-copy"))
-hl.bind(mainMod .. " + CTRL + V",  hl.dsp.exec_cmd([[cliphist wipe && notify-send "Clipboard" "History cleared"]]))
+hl.bind(mainMod .. " + SHIFT + V", hl.dsp.exec_cmd("cliphist list | wofi --dmenu --prompt Clipboard --cache-file /dev/null | cliphist decode | wl-copy"), { description = "Clipboard history" })
+hl.bind(mainMod .. " + CTRL + V",  hl.dsp.exec_cmd([[cliphist wipe && notify-send "Clipboard" "History cleared"]]), { description = "Clear clipboard history" })
+
+-- Color picker: click any pixel, its hex (lowercase, like colors.css) goes to
+-- the clipboard and a notification. -b drops ANSI colors from the output.
+-- Escape cancels (empty output, so no notification).
+hl.bind(mainMod .. " + SHIFT + C", hl.dsp.exec_cmd([[c=$(hyprpicker -a -b -l -f hex) && [ -n "$c" ] && notify-send "Color picked" "$c copied"]]), { description = "Color picker" })
 
 -- Screenshot region to clipboard. [[ ]] is a Lua raw string, so the inner
 -- double quotes and $(...) survive untouched.
-hl.bind(mainMod .. " + SHIFT + S", hl.dsp.exec_cmd([[grim -g "$(slurp)" - | wl-copy]]))
+hl.bind(mainMod .. " + SHIFT + S", hl.dsp.exec_cmd([[grim -g "$(slurp)" - | wl-copy]]), { description = "Screenshot region to clipboard" })
 
 -- Move focus with mainMod + arrow keys
-hl.bind(mainMod .. " + left",  hl.dsp.focus({ direction = "left" }))
-hl.bind(mainMod .. " + right", hl.dsp.focus({ direction = "right" }))
-hl.bind(mainMod .. " + up",    hl.dsp.focus({ direction = "up" }))
-hl.bind(mainMod .. " + down",  hl.dsp.focus({ direction = "down" }))
+hl.bind(mainMod .. " + left",  hl.dsp.focus({ direction = "left" }), { description = "Focus left" })
+hl.bind(mainMod .. " + right", hl.dsp.focus({ direction = "right" }), { description = "Focus right" })
+hl.bind(mainMod .. " + up",    hl.dsp.focus({ direction = "up" }), { description = "Focus up" })
+hl.bind(mainMod .. " + down",  hl.dsp.focus({ direction = "down" }), { description = "Focus down" })
 
 -- Workspaces 1-10, and move-window-to-workspace with SHIFT.
 -- Your 20 hand-written lines collapse into this loop.
 for i = 1, 10 do
     local key = i % 10 -- 10 maps to key 0
-    hl.bind(mainMod .. " + " .. key,           hl.dsp.focus({ workspace = i }))
-    hl.bind(mainMod .. " + SHIFT + " .. key,   hl.dsp.window.move({ workspace = i }))
+    hl.bind(mainMod .. " + " .. key,           hl.dsp.focus({ workspace = i }),       { description = "Go to workspace " .. i })
+    hl.bind(mainMod .. " + SHIFT + " .. key,   hl.dsp.window.move({ workspace = i }), { description = "Move window to workspace " .. i })
 end
 
 -- Side keyboard keys 4-6. keyd remaps them to F13-F15 (config/keyd/default.conf).
@@ -304,34 +316,34 @@ end
 -- would never match. (`code:191` binds are silently dropped by the Lua API.)
 local sideKeys = { "XF86Tools", "XF86Launch5", "XF86Launch6" }
 for i, key in ipairs(sideKeys) do
-    hl.bind(key, hl.dsp.focus({ workspace = i }))
+    hl.bind(key, hl.dsp.focus({ workspace = i }), { description = "Go to workspace " .. i .. " (side key)" })
 end
 
 -- Special workspace (scratchpad)
-hl.bind(mainMod .. " + S",       hl.dsp.workspace.toggle_special("magic"))
-hl.bind(mainMod .. " + ALT + S", hl.dsp.window.move({ workspace = "special:magic" }))
+hl.bind(mainMod .. " + S",       hl.dsp.workspace.toggle_special("magic"), { description = "Toggle scratchpad" })
+hl.bind(mainMod .. " + ALT + S", hl.dsp.window.move({ workspace = "special:magic" }), { description = "Move window to scratchpad" })
 
 -- Scroll through workspaces
-hl.bind(mainMod .. " + mouse_down", hl.dsp.focus({ workspace = "e+1" }))
-hl.bind(mainMod .. " + mouse_up",   hl.dsp.focus({ workspace = "e-1" }))
+hl.bind(mainMod .. " + mouse_down", hl.dsp.focus({ workspace = "e+1" }), { description = "Next workspace" })
+hl.bind(mainMod .. " + mouse_up",   hl.dsp.focus({ workspace = "e-1" }), { description = "Previous workspace" })
 
 -- Move/resize with mainMod + LMB/RMB drag
-hl.bind(mainMod .. " + mouse:272", hl.dsp.window.drag(),   { mouse = true })
-hl.bind(mainMod .. " + mouse:273", hl.dsp.window.resize(), { mouse = true })
+hl.bind(mainMod .. " + mouse:272", hl.dsp.window.drag(),   { mouse = true, description = "Drag window" })
+hl.bind(mainMod .. " + mouse:273", hl.dsp.window.resize(), { mouse = true, description = "Resize window" })
 
 -- Media keys. (No brightness binds: the DP monitor has no backlight control.)
 -- locked = true    -> works with the screen locked (old `bindl`)
 -- repeating = true -> holds down to repeat        (old `binde`)
-hl.bind("XF86AudioRaiseVolume",  hl.dsp.exec_cmd("wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 5%+"), { locked = true, repeating = true })
-hl.bind("XF86AudioLowerVolume",  hl.dsp.exec_cmd("wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"),      { locked = true, repeating = true })
-hl.bind("XF86AudioMute",         hl.dsp.exec_cmd("wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"),     { locked = true, repeating = true })
-hl.bind("XF86AudioMicMute",      hl.dsp.exec_cmd("wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"),   { locked = true, repeating = true })
+hl.bind("XF86AudioRaiseVolume",  hl.dsp.exec_cmd("wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 5%+"), { locked = true, repeating = true, description = "Volume up" })
+hl.bind("XF86AudioLowerVolume",  hl.dsp.exec_cmd("wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"),      { locked = true, repeating = true, description = "Volume down" })
+hl.bind("XF86AudioMute",         hl.dsp.exec_cmd("wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"),     { locked = true, repeating = true, description = "Mute audio" })
+hl.bind("XF86AudioMicMute",      hl.dsp.exec_cmd("wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"),   { locked = true, repeating = true, description = "Mute microphone" })
 
 -- Requires playerctl
-hl.bind("XF86AudioNext",  hl.dsp.exec_cmd("playerctl next"),       { locked = true })
-hl.bind("XF86AudioPause", hl.dsp.exec_cmd("playerctl play-pause"), { locked = true })
-hl.bind("XF86AudioPlay",  hl.dsp.exec_cmd("playerctl play-pause"), { locked = true })
-hl.bind("XF86AudioPrev",  hl.dsp.exec_cmd("playerctl previous"),   { locked = true })
+hl.bind("XF86AudioNext",  hl.dsp.exec_cmd("playerctl next"),       { locked = true, description = "Next track" })
+hl.bind("XF86AudioPause", hl.dsp.exec_cmd("playerctl play-pause"), { locked = true, description = "Play / pause" })
+hl.bind("XF86AudioPlay",  hl.dsp.exec_cmd("playerctl play-pause"), { locked = true, description = "Play / pause" })
+hl.bind("XF86AudioPrev",  hl.dsp.exec_cmd("playerctl previous"),   { locked = true, description = "Previous track" })
 
 --------------------------------
 ---- WINDOWS AND WORKSPACES ----
