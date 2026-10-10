@@ -53,7 +53,8 @@ window#waybar.empty #window {
 #bluetooth,
 #pulseaudio,
 #tray,
-#keyboard-state {
+#keyboard-state,
+#custom-updates {
     padding: 2px 12px;
     margin: 4px 2px;
     color: #ffffff;
@@ -82,6 +83,7 @@ window#waybar.empty #window {
 #pulseaudio         { color: #bb9af7; }
 #tray               { color: #c0caf5; }
 #keyboard-state     { color: #e0af68; }
+#custom-updates     { color: #7dcfff; }
 
 /* Disconnected / muted states */
 #network.disconnected {
@@ -106,6 +108,12 @@ window#waybar.empty #window {
 @keyframes blink-critical {
     from { background-color: #f7768e; }
     to   { background-color: #db4b4b; }
+}
+
+/* Updates: many pending = orange pill */
+#custom-updates.warning {
+    color: #1a1b26;
+    background-color: #ff9e64;
 }
 
 /* Caps Lock: dim when off, red pill when on */
