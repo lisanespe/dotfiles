@@ -95,7 +95,7 @@ hl.config({
         border_size = 1,
 
         col = {
-            -- Tokyo Night, same palette as Waybar (config/waybar/style.css):
+            -- Tokyo Night, same palette as Waybar (config/waybar/colors.css):
             -- blue -> purple on the focused window, muted grey-blue elsewhere.
             active_border   = { colors = { "rgb(7aa2f7)", "rgb(bb9af7)" }, angle = 45 },
             inactive_border = "rgb(414868)",
@@ -117,8 +117,9 @@ hl.config({
             enabled      = true,
             range        = 4,
             render_power = 3,
-            -- Lua takes ARGB as a number: rgba(1a1a1aee) becomes 0xee1a1a1a
-            color        = 0xee1a1a1a,
+            -- Lua takes ARGB as a number: rgba(1a1b26ee) becomes 0xee1a1b26
+            -- (Tokyo Night bg, see config/waybar/colors.css)
+            color        = 0xee1a1b26,
         },
 
         blur = {

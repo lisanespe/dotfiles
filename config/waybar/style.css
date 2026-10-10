@@ -1,3 +1,5 @@
+@import "colors.css";
+
 * {
     /* Propo, not Mono: Mono squeezes Nerd Font icons into one narrow cell */
     font-family: "UbuntuMono Nerd Font Propo", monospace;
@@ -6,9 +8,9 @@
 }
 
 window#waybar {
-    background-color: rgba(20, 20, 20, 0.9);
-    color: #ffffff;
-    border-bottom: 2px solid rgba(100, 100, 100, 0.3);
+    background-color: alpha(@bg_dark, 0.9);
+    color: @fg;
+    border-bottom: 2px solid alpha(@black, 0.6);
 }
 
 /* Workspaces: active one is a filled pill; color/background fade in */
@@ -18,31 +20,31 @@ window#waybar {
 #workspaces button {
     padding: 0 10px;
     margin: 0 2px;
-    color: #888888;
+    color: @muted;
     background: transparent;
     border: none;
     border-radius: 8px;
     transition: color 200ms ease, background-color 250ms ease;
 }
 #workspaces button:hover {
-    color: #c0caf5;
-    background: rgba(122, 162, 247, 0.15);  /* replaces Waybar's default hover bg */
+    color: @fg;
+    background: alpha(@blue, 0.15);  /* replaces Waybar's default hover bg */
     box-shadow: none;
     text-shadow: none;
 }
 #workspaces button.active {
-    color: #1a1b26;
-    background-color: #7aa2f7;
+    color: @bg;
+    background-color: @blue;
 }
 #workspaces button.urgent {
-    color: #1a1b26;
-    background-color: #f7768e;
+    color: @bg;
+    background-color: @red;
 }
 
 /* Window title (left side) */
 #window {
     padding: 0 12px;
-    color: #c0caf5;
+    color: @fg;
     font-style: italic;
 }
 window#waybar.empty #window {
@@ -66,8 +68,8 @@ window#waybar.empty #window {
 #custom-power {
     padding: 2px 12px;
     margin: 4px 2px;
-    color: #ffffff;
-    background-color: rgba(40, 42, 54, 0.6);
+    color: @fg;
+    background-color: alpha(@bg_hl, 0.6);
     border-radius: 8px;
 }
 
@@ -81,105 +83,105 @@ window#waybar.empty #window {
 }
 
 /* Per-module accent colors */
-#clock              { color: #c0caf5; }
-#mpris              { color: #9ece6a; }
-#mpris.paused       { color: #565f89; }
-#cpu                { color: #9ece6a; }
-#custom-cpu-temp    { color: #9ece6a; }
-#custom-gpu-usage   { color: #f7768e; }
-#custom-gpu-temp    { color: #f7768e; }
-#memory             { color: #e0af68; }
-#network            { color: #7aa2f7; }
-#bluetooth          { color: #2ac3de; }
-#pulseaudio         { color: #bb9af7; }
-#tray               { color: #c0caf5; }
-#keyboard-state     { color: #e0af68; }
-#custom-updates     { color: #7dcfff; }
-#custom-power       { color: #f7768e; }
-#idle_inhibitor     { color: #565f89; }
-#custom-notification { color: #c0caf5; }
-#custom-notification.notification { color: #e0af68; }
+#clock              { color: @fg; }
+#mpris              { color: @green; }
+#mpris.paused       { color: @comment; }
+#cpu                { color: @green; }
+#custom-cpu-temp    { color: @green; }
+#custom-gpu-usage   { color: @red; }
+#custom-gpu-temp    { color: @red; }
+#memory             { color: @yellow; }
+#network            { color: @blue; }
+#bluetooth          { color: @teal; }
+#pulseaudio         { color: @purple; }
+#tray               { color: @fg; }
+#keyboard-state     { color: @yellow; }
+#custom-updates     { color: @cyan; }
+#custom-power       { color: @red; }
+#idle_inhibitor     { color: @comment; }
+#custom-notification { color: @fg; }
+#custom-notification.notification { color: @yellow; }
 #custom-notification.dnd-none,
-#custom-notification.dnd-notification { color: #565f89; }
+#custom-notification.dnd-notification { color: @comment; }
 
 /* Disconnected / muted states */
 #network.disconnected {
-    color: #565f89;
+    color: @comment;
 }
 #pulseaudio.muted {
-    color: #565f89;
+    color: @comment;
 }
 #bluetooth.off,
 #bluetooth.no-controller {
-    color: #565f89;
+    color: @comment;
 }
 
 /* Load states (cpu / memory "states", gpu script class): 70% orange, 90% red pill */
 #cpu.warning,
 #custom-gpu-usage.warning,
 #memory.warning {
-    color: #ff9e64;
+    color: @orange;
 }
 #cpu.critical,
 #custom-gpu-usage.critical {
-    color: #1a1b26;
-    background-color: #f7768e;
+    color: @bg;
+    background-color: @red;
     border-radius: 4px;
 }
 #memory.critical {
-    color: #1a1b26;
-    background-color: #f7768e;
+    color: @bg;
+    background-color: @red;
 }
 
 /* Critical temperature flash */
 #custom-cpu-temp.critical,
 #custom-gpu-temp.critical {
-    color: #1a1b26;
-    background-color: #f7768e;
+    color: @bg;
+    background-color: @red;
     border-radius: 4px;
     animation: blink-critical 1s linear infinite alternate;
 }
 @keyframes blink-critical {
-    from { background-color: #f7768e; }
-    to   { background-color: #db4b4b; }
+    from { background-color: @red; }
+    to   { background-color: @red_dark; }
 }
 
 /* Updates: many pending = orange pill */
 #custom-updates.warning {
-    color: #1a1b26;
-    background-color: #ff9e64;
+    color: @bg;
+    background-color: @orange;
 }
 
 /* Idle inhibitor: yellow pill while keeping the screen awake */
 #idle_inhibitor.activated {
-    color: #1a1b26;
-    background-color: #e0af68;
+    color: @bg;
+    background-color: @yellow;
 }
 
 /* Power button: red pill on hover */
 #custom-power:hover {
-    color: #1a1b26;
-    background-color: #f7768e;
+    color: @bg;
+    background-color: @red;
 }
 
 /* Caps Lock: dim when off, red pill when on */
 #keyboard-state label {
-    color: #565f89;
+    color: @comment;
 }
 #keyboard-state label.locked {
-    color: #1a1b26;
-    background-color: #f7768e;
+    color: @bg;
+    background-color: @red;
     border-radius: 6px;
     padding: 0 6px;
 }
 
 /* Tooltip */
 tooltip {
-    background-color: rgba(26, 27, 38, 0.95);
-    border: 1px solid #414868;
+    background-color: alpha(@bg, 0.95);
+    border: 1px solid @black;
     border-radius: 4px;
 }
 tooltip label {
-    color: #c0caf5;
+    color: @fg;
     padding: 4px;
 }

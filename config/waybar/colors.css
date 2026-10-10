@@ -1,0 +1,20 @@
+/* Tokyo Night palette, shared by name with config/hypr/hyprlock.conf ($blue, ...)
+   and the window borders in config/hypr/hyprland.lua. Change a color here and
+   in those two files to keep the desktop consistent. */
+
+@define-color bg       #1a1b26;  /* base background, dark text on pills */
+@define-color bg_dark  #16161e;  /* bar background */
+@define-color bg_hl    #292e42;  /* module pills */
+@define-color black    #414868;  /* borders, inactive window border */
+@define-color comment  #565f89;  /* dimmed / off states */
+@define-color muted    #737aa2;  /* inactive workspaces */
+@define-color fg       #c0caf5;  /* main text */
+@define-color blue     #7aa2f7;
+@define-color cyan     #7dcfff;
+@define-color teal     #2ac3de;
+@define-color purple   #bb9af7;
+@define-color green    #9ece6a;
+@define-color yellow   #e0af68;
+@define-color orange   #ff9e64;
+@define-color red      #f7768e;
+@define-color red_dark #db4b4b;
