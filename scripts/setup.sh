@@ -116,6 +116,19 @@ main() {
     create_symlink "$DOTFILES_DIR/config/jellyfin/jellyfin.container" \
     "$HOME/.config/containers/systemd/jellyfin.container"
 
+    # Media stack Podman Quadlets (*.container, media.network)
+    for unit in "$DOTFILES_DIR"/config/media-stack/*; do
+        create_symlink "$unit" "$HOME/.config/containers/systemd/$(basename "$unit")"
+    done
+
+    # User services
+    create_symlink "$DOTFILES_DIR/config/systemd/user/qbittorrent-nox.service" \
+    "$HOME/.config/systemd/user/qbittorrent-nox.service"
+
+    # Session environment (SSH agent socket for systemd user services)
+    create_symlink "$DOTFILES_DIR/config/environment.d/ssh-agent.conf" \
+    "$HOME/.config/environment.d/10-ssh-agent.conf"
+
     # Git configuration (if exists)
     if [[ -f "$DOTFILES_DIR/config/git/.gitconfig" ]]; then
         create_symlink "$DOTFILES_DIR/config/git/.gitconfig" "$HOME/.gitconfig"
@@ -125,6 +138,8 @@ main() {
             systemctl --user daemon-reload || true
             systemctl --user enable ssh-agent.socket || true
             log_success "ssh-agent.socket enabled"
+            systemctl --user enable qbittorrent-nox.service || true
+            log_success "qbittorrent-nox.service enabled"
        fi
 
     log_success "Dotfiles setup completed!"
