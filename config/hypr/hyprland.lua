@@ -40,7 +40,10 @@ hl.on("hyprland.start", function()
     hl.exec_cmd("wl-paste --type image --watch cliphist store")
     hl.exec_cmd("/home/lisanespe/.local/bin/wallpaper-start")
     hl.exec_cmd("systemctl --user start hyprpolkitagent")
-    hl.exec_cmd("spotify-launcher")
+    -- Exec rule as a backup to the spotify-to-magic window rule: Spotify runs
+    -- under XWayland and can set its class after the window opens, too late
+    -- for class rules. Exec rules match by process, so they still apply.
+    hl.exec_cmd("spotify-launcher", { workspace = "special:magic silent" })
 end)
 
 -------------------------------
@@ -437,8 +440,10 @@ hl.window_rule({
     float = true,
 })
 
+-- Spotify reports its class as "Spotify" (capital S); regex is case-sensitive.
+-- "silent" keeps it hidden in the scratchpad instead of popping up.
 hl.window_rule({
     name      = "spotify-to-magic",
-    match     = { class = "^(spotify)$" },
-    workspace = "special:magic",
+    match     = { class = "^[Ss]potify$" },
+    workspace = "special:magic silent",
 })
