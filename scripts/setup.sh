@@ -107,6 +107,32 @@ install_keyd_config() {
     log_success "keyd config installed: $target"
 }
 
+# Make the user manager start after, and stop before, /mnt/data (needs sudo).
+# Installed for the current UID only, not every user@.service.
+install_user_mount_order() {
+    local uid
+    uid=$(id -u)
+    sudo install -Dm644 "$DOTFILES_DIR/config/systemd/system/user@.service.d/mnt-data.conf" \
+        "/etc/systemd/system/user@${uid}.service.d/mnt-data.conf"
+    # No restart: restarting user@ would kill the session. Shutdown uses it after reload.
+    sudo systemctl daemon-reload
+    log_success "user@${uid}.service ordered after /mnt/data"
+}
+
+# Turn off Wi-Fi power save in NetworkManager (system-wide, needs sudo).
+# Power save adds big LAN latency spikes that stall Jellyfin playback.
+install_wifi_powersave_config() {
+    if ! command -v NetworkManager >/dev/null 2>&1; then
+        log_warning "NetworkManager not installed, skipping wifi power save config"
+        return 0
+    fi
+    sudo install -Dm644 "$DOTFILES_DIR/config/NetworkManager/conf.d/wifi-powersave.conf" \
+        /etc/NetworkManager/conf.d/wifi-powersave.conf
+    # Reload, not restart: applies on next connection activation without dropping Wi-Fi.
+    sudo nmcli general reload conf
+    log_success "Wi-Fi power save disabled"
+}
+
 # GTK on Wayland reads gsettings (dconf), not settings.ini, so set both.
 # Theme needs AUR tokyonight-gtk-theme-git; icons and cursor are in packages.txt.
 apply_theme() {
@@ -149,6 +175,17 @@ main() {
     # wofi theme (imports ~/.config/waybar/colors.css, so link Waybar first)
     create_symlink "$DOTFILES_DIR/config/wofi" "$HOME/.config/wofi"
 
+    # starship configuration
+    create_symlink "$DOTFILES_DIR/config/starship/starship.toml" "$HOME/.config/starship.toml"
+
+    # bat configuration (custom themes need a cache rebuild before BAT_THEME finds them)
+    create_symlink "$DOTFILES_DIR/config/bat" "$HOME/.config/bat"
+    if command -v bat >/dev/null 2>&1; then
+        bat cache --build >/dev/null && log_success "bat theme cache rebuilt"
+    else
+        log_warning "bat not installed, skipping theme cache build"
+    fi
+
     # Kitty configuration
     create_symlink "$DOTFILES_DIR/config/misc/kitty" "$HOME/.config/kitty"
 
@@ -158,11 +195,20 @@ main() {
     # Neovim configuration
     create_symlink "$DOTFILES_DIR/config/misc/nvim" "$HOME/.config/nvim"
 
+    # WirePlumber rules (Bluetooth output priority)
+    create_symlink "$DOTFILES_DIR/config/wireplumber" "$HOME/.config/wireplumber"
+
     # Side keyboard remap (system-wide, needs sudo)
     install_keyd_config
 
+    # Wi-Fi power save off (system-wide, needs sudo)
+    install_wifi_powersave_config
+
     create_symlink "$DOTFILES_DIR/config/jellyfin/jellyfin.container" \
     "$HOME/.config/containers/systemd/jellyfin.container"
+
+    # Stop user containers before /mnt/data unmounts at shutdown
+    install_user_mount_order
 
     # Media stack Podman Quadlets (*.container, media.network)
     for unit in "$DOTFILES_DIR"/config/media-stack/*; do
