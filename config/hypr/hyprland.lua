@@ -34,13 +34,15 @@ local menu        = "wofi --show drun"
 hl.on("hyprland.start", function()
     hl.exec_cmd("waybar")
     hl.exec_cmd("hypridle")   -- idle lock / screen off (config/hypr/hypridle.conf)
-    hl.exec_cmd("swaync")     -- notifications; start before D-Bus can activate mako
     -- Clipboard history: store every text / image copy in cliphist
     hl.exec_cmd("wl-paste --type text --watch cliphist store")
     hl.exec_cmd("wl-paste --type image --watch cliphist store")
     hl.exec_cmd("/home/lisanespe/.local/bin/wallpaper-start")
     hl.exec_cmd("systemctl --user start hyprpolkitagent")
-    hl.exec_cmd("spotify-launcher")
+    -- Exec rule as a backup to the spotify-to-magic window rule: Spotify runs
+    -- under XWayland and can set its class after the window opens, too late
+    -- for class rules. Exec rules match by process, so they still apply.
+    hl.exec_cmd("spotify-launcher", { workspace = "special:magic silent" })
 end)
 
 -------------------------------
@@ -107,7 +109,7 @@ hl.config({
         },
 
         resize_on_border = false,
-        allow_tearing    = false,
+        allow_tearing    = true,   -- only windows with the `immediate` rule tear (Steam games)
         layout           = "dwindle",
     },
 
@@ -307,6 +309,26 @@ hl.bind(mainMod .. " + right", hl.dsp.focus({ direction = "right" }), { descript
 hl.bind(mainMod .. " + up",    hl.dsp.focus({ direction = "up" }), { description = "Focus up" })
 hl.bind(mainMod .. " + down",  hl.dsp.focus({ direction = "down" }), { description = "Focus down" })
 
+-- Move window with mainMod + SHIFT + arrows (swaps places in the tiling layout)
+for _, dir in ipairs({ "left", "right", "up", "down" }) do
+    hl.bind(mainMod .. " + SHIFT + " .. dir, hl.dsp.window.move({ direction = dir }), { description = "Move window " .. dir })
+end
+
+-- Resize window with mainMod + CTRL + arrows; hold to keep resizing.
+-- Steps in pixels: x grows/shrinks width, y height.
+-- A list (not a keyed table) so the cheat sheet shows them in this order.
+local resizeSteps = {
+    { dir = "left",  x = -40, y = 0 },
+    { dir = "right", x =  40, y = 0 },
+    { dir = "up",    x = 0,   y = -40 },
+    { dir = "down",  x = 0,   y =  40 },
+}
+for _, step in ipairs(resizeSteps) do
+    hl.bind(mainMod .. " + CTRL + " .. step.dir,
+        hl.dsp.window.resize({ x = step.x, y = step.y, relative = true }),
+        { repeating = true, description = "Resize window (" .. step.dir .. ")" })
+end
+
 -- Workspaces 1-10, and move-window-to-workspace with SHIFT.
 -- Your 20 hand-written lines collapse into this loop.
 for i = 1, 10 do
@@ -385,6 +407,17 @@ hl.window_rule({
     center = true,
 })
 
+-- Steam games (class steam_app_<id>): tearing for lower input lag, and no
+-- idle lock while fullscreen. Tearing only kicks in when the game is
+-- fullscreen. Not forced fullscreen: launchers share the same class and
+-- would break; games pick fullscreen themselves.
+hl.window_rule({
+    name         = "steam-games",
+    match        = { class = "^steam_app_[0-9]+$" },
+    immediate    = true,
+    idle_inhibit = "fullscreen",
+})
+
 hl.window_rule({
     -- Fix some dragging issues with XWayland
     name  = "fix-xwayland-drags",
@@ -406,8 +439,10 @@ hl.window_rule({
     float = true,
 })
 
+-- Spotify reports its class as "Spotify" (capital S); regex is case-sensitive.
+-- "silent" keeps it hidden in the scratchpad instead of popping up.
 hl.window_rule({
     name      = "spotify-to-magic",
-    match     = { class = "^(spotify)$" },
-    workspace = "special:magic",
+    match     = { class = "^[Ss]potify$" },
+    workspace = "special:magic silent",
 })

@@ -28,6 +28,10 @@ HealthStartPeriod=90s
 
 [Service]
 Restart=always
+# User units cannot wait for system mounts (RequiresMountsFor= is ignored here).
+# Refuse to start without /mnt/data, else the bind mount captures an empty dir.
+ExecStartPre=/usr/bin/mountpoint -q /mnt/data
+RestartSec=30
 
 [Install]
 WantedBy=default.target

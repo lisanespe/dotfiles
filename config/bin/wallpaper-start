@@ -1,10 +1,18 @@
 #!/bin/sh
 # Start animated wallpaper via linux-wallpaperengine; fall back to awww static image.
+# Safe to re-run: kills any running instance first (hypridle calls this on DPMS
+# resume, because the engine can lose its layer surface when the monitor turns off).
 # Change WALLPAPER to any Steam Workshop ID from steamapps/workshop/content/431960.
 WALLPAPER=1199910952
 SCREEN=DP-1
 
 if command -v linux-wallpaperengine >/dev/null 2>&1; then
+    # A stuck instance can ignore SIGTERM, so escalate to SIGKILL after 2 s.
+    # Process name is truncated to 15 chars by the kernel.
+    if pkill -x linux-wallpaper; then
+        sleep 2
+        pkill -9 -x linux-wallpaper
+    fi
     # Preload CEF so its dlsym(RTLD_NEXT, "close") finds libc; without it CEF aborts
     # at startup with "close symbol missing".
     LD_PRELOAD=/opt/linux-wallpaperengine/libcef.so exec linux-wallpaperengine --screen-root "$SCREEN" --silent "$WALLPAPER"

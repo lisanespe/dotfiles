@@ -21,6 +21,7 @@ export PATH=$PATH:.local/bin/
 export QT_QPA_PLATFORM=wayland
 export WGETRC="$HOME/.config/wget/wgetrc" # keeps .wget-hsts out of $HOME
 export npm_config_cache="$HOME/.cache/npm" # keeps .npm out of $HOME
+export BAT_THEME="tokyonight_night"
 
 #Custom Aliases
 alias auris='bluetoothctl connect 80:C3:BA:7B:7C:47'
@@ -40,29 +41,11 @@ alias lsd='ls -d */'
 
 alias nv='nvim'
 
-# get current branch in git repo
-function parse_git_branch() {
-	BRANCH=`git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/'`
-	if [ ! "${BRANCH}" == "" ]
-	then
-		STAT=`parse_git_dirty`
-		echo "[${BRANCH}${STAT}]"
-	else
-		echo ""
-	fi
-}
-
-# get current branch in git repo
-function parse_git_branch() {
-	BRANCH=`git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/'`
-	if [ ! "${BRANCH}" == "" ]
-	then
-		STAT=`parse_git_dirty`
-		echo "[${BRANCH}${STAT}]"
-	else
-		echo ""
-	fi
-}
+alias ls='eza --icons --group-directories-first'
+alias ll='eza -l --icons --git --group-directories-first'
+alias la='eza -la --icons --git --group-directories-first'
+alias tree='eza --tree --icons'
+alias cat='bat --paging=never'
 
 # get current status of git repo
 function parse_git_dirty {
@@ -99,7 +82,9 @@ function parse_git_dirty {
 	fi
 }
 
-export PS1="[\[\e[32m\]\u\[\e[m\]@\h\w]\`parse_git_branch\`\\$ "
-
 
 export PATH="/home/lisanespe/.local/bin:$PATH"
+
+eval "$(zoxide init bash)"
+eval "$(fzf --bash)"
+eval "$(starship init bash)"

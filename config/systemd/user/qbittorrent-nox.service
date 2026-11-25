@@ -6,6 +6,8 @@ Wants=network-online.target
 
 [Service]
 Type=exec
+# Refuse to start without /mnt/data, else finished downloads land on the root fs.
+ExecStartPre=/usr/bin/mountpoint -q /mnt/data
 ExecStart=/usr/bin/qbittorrent-nox --webui-port=8080
 Restart=on-failure
 RestartSec=5

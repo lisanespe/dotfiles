@@ -47,3 +47,9 @@ qbittorrent-nox
 neovim
 git
 spotify-launcher             # Spotify (downloads the official client), autostarted in hyprland.lua
+starship
+eza 
+bat 
+zoxide 
+fzf
+ntfsprogs-plus               # ntfsck /dev/sda2 to repair /mnt/data (ntfs3 refuses dirty volumes); conflicts with ntfs-3g/ntfsprogs
