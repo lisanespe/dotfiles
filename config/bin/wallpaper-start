@@ -4,7 +4,10 @@
 # resume, because the engine can lose its layer surface when the monitor turns off).
 # Change WALLPAPER to any Steam Workshop ID from steamapps/workshop/content/431960.
 WALLPAPER=1199910952
-SCREEN=DP-1
+
+# Build one --screen-root flag per connected monitor. Connector names (DP-1, DP-2...)
+# change when the cable moves ports, so ask Hyprland instead of hardcoding one.
+SCREEN_ARGS=$(hyprctl monitors -j | jq -r '.[] | "--screen-root \(.name)"')
 
 if command -v linux-wallpaperengine >/dev/null 2>&1; then
     # A stuck instance can ignore SIGTERM, so escalate to SIGKILL after 2 s.
@@ -15,7 +18,7 @@ if command -v linux-wallpaperengine >/dev/null 2>&1; then
     fi
     # Preload CEF so its dlsym(RTLD_NEXT, "close") finds libc; without it CEF aborts
     # at startup with "close symbol missing".
-    LD_PRELOAD=/opt/linux-wallpaperengine/libcef.so exec linux-wallpaperengine --screen-root "$SCREEN" --silent "$WALLPAPER"
+    LD_PRELOAD=/opt/linux-wallpaperengine/libcef.so exec linux-wallpaperengine $SCREEN_ARGS --silent "$WALLPAPER"
 else
     awww-daemon &
     sleep 1

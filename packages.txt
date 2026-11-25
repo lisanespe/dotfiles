@@ -13,6 +13,7 @@ wofi                         # app launcher (SUPER+R)
 papirus-icon-theme           # Papirus-Dark icons (config/gtk-3.0, apply_theme in setup.sh)
 breeze-cursors               # cursor theme (XCURSOR_THEME in hyprland.lua)
 awww                         # wallpaper daemon
+jq                           # wallpaper-start reads monitor names from hyprctl -j
 ttf-ubuntu-mono-nerd         # Waybar font (UbuntuMono Nerd Font Propo)
 
 # Apps bound in hyprland.lua
