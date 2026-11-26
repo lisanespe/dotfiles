@@ -54,3 +54,5 @@ bat
 zoxide 
 fzf
 ntfsprogs-plus               # ntfsck /dev/sda2 to repair /mnt/data (ntfs3 refuses dirty volumes); conflicts with ntfs-3g/ntfsprogs
+greetd
+greetd-tuigreet              # login screen on tty1, config in config/greetd

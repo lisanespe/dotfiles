@@ -107,6 +107,19 @@ install_keyd_config() {
     log_success "keyd config installed: $target"
 }
 
+# Install greetd + tuigreet login screen config (system-wide, needs sudo).
+# Copied, not symlinked: the greeter user cannot read $HOME.
+install_greetd_config() {
+    if ! command -v greetd >/dev/null 2>&1; then
+        log_warning "greetd not installed, skipping login screen config"
+        return 0
+    fi
+    sudo install -Dm644 "$DOTFILES_DIR/config/greetd/config.toml" /etc/greetd/config.toml
+    # Enable only: starting it now would take over tty1 under the running session.
+    sudo systemctl enable greetd.service
+    log_success "greetd enabled (active after reboot)"
+}
+
 # Make the user manager start after, and stop before, /mnt/data (needs sudo).
 # Installed for the current UID only, not every user@.service.
 install_user_mount_order() {
@@ -200,6 +213,9 @@ main() {
 
     # Side keyboard remap (system-wide, needs sudo)
     install_keyd_config
+
+    # Login screen on tty1 (system-wide, needs sudo)
+    install_greetd_config
 
     # Wi-Fi power save off (system-wide, needs sudo)
     install_wifi_powersave_config
