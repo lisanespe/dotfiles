@@ -1,0 +1,9 @@
+[terminal]
+# Run the greeter on tty1, where Hyprland used to be started by hand.
+vt = 1
+
+[default_session]
+# tuigreet: text-mode greeter. --cmd is the default session; F3 picks another
+# from /usr/share/wayland-sessions. start-hyprland is what hyprland.desktop runs.
+command = "tuigreet --time --remember --remember-session --asterisks --cmd start-hyprland"
+user = "greeter"
